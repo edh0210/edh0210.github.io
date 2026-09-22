@@ -1,297 +1,847 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   
-  <meta name="copyright" content="Content">
-  
-  <title>EDH | Profile</title>
+  <!-- Primary SEO Meta Tags -->
+  <title>Edwin Hernández | Software Engineer & Enterprise Systems Architect</title>
+  <meta name="title" content="Edwin Hernández | Software Engineer & Enterprise Systems Architect">
+  <meta name="description" content="Portfolio profesional de Edwin Hernández (EDH). Software Engineer y Arquitecto de Sistemas especializado en soluciones backend, APIs REST, bases de datos (.NET, SQL, Oracle) y arquitecturas empresariales.">
+  <meta name="keywords" content="Software Engineer, Software Architect, Backend Engineer, Database Engineer, C#, .NET, SQL Server, Oracle, Enterprise Systems, Integration Engineer, Nicaragua, Remote">
+  <meta name="author" content="Edwin Hernández">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://edh0210.github.io/">
 
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://edh0210.github.io/">
+  <meta property="og:title" content="Edwin Hernández | Software Engineer & Enterprise Systems Architect">
+  <meta property="og:description" content="Building reliable enterprise systems, integrations, REST APIs, databases, and scalable software solutions.">
+  <meta property="og:image" content="https://edh0210.github.io/assets/img/person.jpg">
+
+  <!-- Twitter / X -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://edh0210.github.io/">
+  <meta property="twitter:title" content="Edwin Hernández | Software Engineer & Enterprise Systems Architect">
+  <meta property="twitter:description" content="Building reliable enterprise systems, integrations, REST APIs, databases, and scalable software solutions.">
+  <meta property="twitter:image" content="https://edh0210.github.io/assets/img/person.jpg">
+
+  <!-- Favicon -->
   <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
-  
-  <link rel="stylesheet" type="text/css" href="assets/css/themify-icons.css">
-  
-  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
 
-  <link rel="stylesheet" type="text/css" href="assets/vendor/animate/animate.css">
-  
-  <link rel="stylesheet" type="text/css" href="assets/vendor/owl-carousel/owl.carousel.css">
-  
-  <link rel="stylesheet" type="text/css" href="assets/vendor/perfect-scrollbar/css/perfect-scrollbar.css">
-  
-  <link rel="stylesheet" type="text/css" href="assets/vendor/nice-select/css/nice-select.css">
-  
-  <link rel="stylesheet" type="text/css" href="assets/vendor/fancybox/css/jquery.fancybox.min.css">
-  
-  <link rel="stylesheet" type="text/css" href="assets/css/virtual.css">
-  
-  <link rel="stylesheet" type="text/css" href="assets/css/topbar.virtual.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/main.css">
+
+  <!-- Schema.org Person Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Edwin Hernández",
+    "alternateName": "EDH",
+    "url": "https://edh0210.github.io/",
+    "image": "https://edh0210.github.io/assets/img/person.jpg",
+    "jobTitle": "Software Engineer & Software Architect",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Enterprise Software & IT Consulting"
+    },
+    "sameAs": [
+      "https://github.com/edh0210",
+      "https://www.linkedin.com/in/edwin-hern%C3%A1ndez-36874058/"
+    ],
+    "knowsAbout": [
+      "Software Architecture",
+      "Backend Engineering",
+      "Database Systems",
+      ".NET",
+      "C#",
+      "SQL Server",
+      "Oracle",
+      "REST APIs",
+      "System Integration"
+    ]
+  }
+  </script>
 </head>
-<body class="theme-red">
-  
-  <!-- Back to top button -->
-  <div class="btn-back_to_top">
-    <span class="ti-arrow-up"></span>
-  </div>
-  
-  
-  <div class="vg-page page-home" id="home" style="background-image: url(assets/img/bg_image_1.jpg)">
-    <!-- Navbar -->
-    <div class="navbar navbar-expand-lg navbar-dark sticky" data-offset="500">
-      <div class="container">
-        <a href="" class="navbar-brand">EDH | Profile</a>
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#main-navbar" aria-expanded="true">
-          <span class="ti-menu"></span>
+<body>
+
+  <!-- HEADER / NAVBAR -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="#home" class="brand-logo">
+        <span>EDH</span>
+        <span class="brand-badge">// ARCHITECT</span>
+      </a>
+
+      <!-- Desktop & Mobile Navigation Menu -->
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#home" class="nav-link active" data-i18n="nav_home">Inicio</a></li>
+        <li><a href="#about" class="nav-link" data-i18n="nav_about">Perfil</a></li>
+        <li><a href="#engineering" class="nav-link" data-i18n="nav_engineering">Capacidades</a></li>
+        <li><a href="#architecture" class="nav-link" data-i18n="nav_architecture">Arquitectura</a></li>
+        <li><a href="#projects" class="nav-link" data-i18n="nav_projects">Proyectos</a></li>
+        <li><a href="#tech" class="nav-link" data-i18n="nav_tech">Tech Stack</a></li>
+        <li><a href="#contact" class="nav-link" data-i18n="nav_contact">Contacto</a></li>
+      </ul>
+
+      <!-- Action Controls (Single Compact Language Dropdown + Theme Toggle + Resume Button) -->
+      <div class="nav-actions">
+        <!-- Compact Language Dropdown -->
+        <div class="lang-dropdown-wrapper" id="langDropdownWrapper">
+          <button class="lang-dropdown-btn" id="langDropdownToggle" aria-haspopup="true" aria-expanded="false" title="Cambiar idioma / Change language">
+            <svg class="flag-icon" id="currentFlag" viewBox="0 0 640 480" width="18" height="14">
+              <rect width="640" height="480" fill="#002b7f"/>
+              <rect width="640" height="160" y="160" fill="#fff"/>
+            </svg>
+            <span id="currentLangText">ES</span>
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          <div class="lang-dropdown-menu" id="langDropdownMenu">
+            <button class="lang-option active" onclick="switchLanguage('es')">
+              <svg class="flag-icon" viewBox="0 0 640 480" width="18" height="14">
+                <rect width="640" height="480" fill="#002b7f"/>
+                <rect width="640" height="160" y="160" fill="#fff"/>
+              </svg>
+              <span>Español</span>
+            </button>
+            <button class="lang-option" onclick="switchLanguage('en')">
+              <svg class="flag-icon" viewBox="0 0 640 480" width="18" height="14">
+                <rect width="640" height="480" fill="#bd3d44"/>
+                <path stroke="#fff" stroke-width="37" d="M0 55.4h640M0 129.2h640M0 203h640M0 276.9h640M0 350.7h640M0 424.6h640"/>
+                <rect width="256" height="258.5" fill="#192f5d"/>
+              </svg>
+              <span>English</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Theme Toggle Button -->
+        <button class="theme-toggle" id="themeToggleBtn" aria-label="Alternar tema oscuro/claro">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+          </svg>
         </button>
-        <div class="collapse navbar-collapse" id="main-navbar">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a href="#home" class="nav-link" data-animate="scrolling">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="#about" class="nav-link" data-animate="scrolling">About</a>
-            </li>
-            <li class="nav-item">
-              <a href="#portfolio" class="nav-link" data-animate="scrolling">Portfolio</a>
-            </li>
-            <li class="nav-item">
-              <a href="#footer" class="nav-link" data-animate="scrolling">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div> <!-- End Navbar -->
-    <!-- Caption header -->
-    <div class="caption-header text-center wow zoomInDown">
-      <h5 class="fw-normal">Welcome</h5>
-      <h1 class="fw-light mb-4">I'm <b class="fg-theme">Edwin</b> Hernández</h1>
-      <div class="badge">Development</div>
-    </div> <!-- End Caption header -->
-    <div class="floating-button"><span class="ti-mouse"></span></div>
-  </div>
-  
-  <div class="vg-page page-about" id="about">
-    <div class="container py-5">
-      <div class="row">
-        <div class="col-lg-4 py-3">
-          <div class="img-place wow fadeInUp">
-            <img src="assets/img/person.jpg" alt="">
-          </div>
-        </div>
-        <div class="col-lg-6 offset-lg-1 wow fadeInRight">
-          <h1 class="fw-light">Edwin Hernández R.</h1>
-          <h5 class="fg-theme mb-3">Development</h5>
-          <p class="text-muted">Development with extensive knowledge on architectures based on open source and. NET. I'm able to learn new topics with the aim of contributing to work in team and to grow my knowledge. Extensive experience in management and hiring of information system projects in areas related to the technology infrastructure and the implementation of procedures and processes for improvement of management of IT services. Ability to deal with projects with responsibility and decision criteria for the continuous improvement of services. Sense of planning, organization and group work for the achievement of goals and excellent interpersonal.</p>
-          <ul class="theme-list">
-            <li><b>From:</b> Nicaragua</li>
-            <li><b>Lives In:</b> Nicaragua</li>
-            <li><b>Gender:</b> Male</li>
-          </ul>
-          <button class="btn btn-theme-outline" id="btn_download">Download CV</button>
-        </div>
+
+        <!-- Resume Action Button -->
+        <button class="btn btn-secondary btn-sm" onclick="openResumeModal()" data-i18n="nav_resume">
+          CV / Resume
+        </button>
+
+        <!-- Mobile Drawer Toggle -->
+        <button class="mobile-toggle" id="mobileMenuToggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+          ☰
+        </button>
       </div>
     </div>
+  </header>
 
-  </div>
-  
-  <div class="vg-page page-service">
-    <div class="container">
-      <div class="text-center wow fadeInUp">
-        <div class="badge badge-subhead">Service</div>
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="home">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            <span data-i18n="hero_status">Disponible para Consultorías, Arquitectura Backend & Agentes IA</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span data-i18n="hero_title_prefix">Hola, soy </span>
+            <span class="text-gradient" data-i18n="hero_title_name">Edwin Hernández</span>
+          </h1>
+
+          <h2 class="hero-subtitle" data-i18n="hero_subtitle">
+            Software Engineer | Software Architect | AI & Enterprise Systems
+          </h2>
+
+          <p class="hero-description" data-i18n="hero_desc">
+            Especializado en el diseño de sistemas empresariales, Agentes de IA, chatbots integrados (WhatsApp / Telegram), transacciones bancarias ACH, APIs REST y bases de datos de alto rendimiento.
+          </p>
+
+          <div class="hero-ctas">
+            <a href="#projects" class="btn btn-primary" data-i18n="cta_view_work">
+              Ver mi trabajo
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </a>
+            <button class="btn btn-secondary" onclick="openResumeModal()" data-i18n="cta_download_cv">
+              Descargar CV
+            </button>
+          </div>
+
+          <div class="social-links">
+            <a href="https://github.com/edh0210" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="GitHub Profile">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/edwin-hern%C3%A1ndez-36874058/" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="LinkedIn Profile">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+            <button onclick="copyEmail()" class="social-btn" aria-label="Copy Email">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hero Profile Card Widget -->
+        <div class="hero-card">
+          <div class="profile-avatar-container">
+            <img src="assets/img/person.jpg" alt="Edwin Hernández" class="profile-avatar">
+          </div>
+          <h3 class="profile-name">Edwin Hernández R.</h3>
+          <p class="profile-location" data-i18n="profile_location">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.5a2.5 2.5 0 002.5-2.5V7.865M19 19.07v-1.07a2 2 0 00-2-2h-1.5a2.5 2.5 0 01-2.5-2.5V11"></path></svg>
+            Disponible para Oportunidades Remotas Internacionales
+          </p>
+
+          <div class="profile-pills">
+            <span class="tech-chip">AI Agents</span>
+            <span class="tech-chip">WhatsApp / Telegram Bots</span>
+            <span class="tech-chip">ACH Banking (FICOHSA)</span>
+            <span class="tech-chip">C# / .NET</span>
+            <span class="tech-chip">REST APIs</span>
+            <span class="tech-chip">SQL Server</span>
+            <span class="tech-chip">Docker</span>
+          </div>
+        </div>
       </div>
-      <h1 class="fw-normal text-center wow fadeInUp">What can i do?</h1>
-      <div class="row mt-5">
-        <div class="col-md-6 col-lg-4 col-xl-3">
-          <div class="card card-service wow fadeInUp">
-            <div class="icon">
-              <span class="ti-desktop"></span>
-            </div>
-            <div class="caption">
-              <h4 class="fg-theme">Web Development</h4>
-              <p>Static, dinamic, Saas whit MVC model</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4 col-xl-3">
-          <div class="card card-service wow fadeInUp">
-            <div class="icon">
-              <span class="ti-paint-bucket"></span>
-            </div>
-            <div class="caption">
-              <h4 class="fg-theme">Apps</h4>
-              <p>Desktop (C#), movil (kotlin)</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4 col-xl-3">
-          <div class="card card-service wow fadeInUp">
-            <div class="icon">
-              <span class="ti-search"></span>
-            </div>
-            <div class="caption">
-              <h4 class="fg-theme">API-REST</h4>
-              <p>GET, POST, PUT, DELETE protocol and more</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4 col-xl-3">
-          <div class="card card-service wow fadeInUp">
-            <div class="icon">
-              <span class="ti-vector"></span>
-            </div>
-            <div class="caption">
-              <h4 class="fg-theme">Desktop Solutions</h4>
-              <p>Modern solutions</p>
-            </div>
-          </div>
-        </div>
+    </section>
+
+    <!-- COMPANIES & ENTERPRISE CLIENTS CAROUSEL -->
+    <section class="companies-section">
+      <div class="container">
+        <div class="companies-label" data-i18n="comp_label">Empresas & Plataformas Empresariales</div>
         
+        <div class="companies-carousel-container">
+          <div class="companies-track">
+            <!-- Set 1 -->
+            <div class="company-card">
+              <div class="company-logo-badge">PR</div>
+              <div>
+                <div class="company-name">PRINEL S.A. de C.V.</div>
+                <div class="company-tag">Enterprise Systems</div>
+              </div>
+            </div>
+
+            <div class="company-card">
+              <div class="company-logo-badge">MO</div>
+              <div>
+                <div class="company-name">Monelca S.A. de C.V.</div>
+                <div class="company-tag">Industrial & Tech</div>
+              </div>
+            </div>
+
+            <div class="company-card">
+              <div class="company-logo-badge">UN</div>
+              <div>
+                <div class="company-name">UNAN</div>
+                <div class="company-tag">Academic & Systems</div>
+              </div>
+            </div>
+
+            <div class="company-card">
+              <div class="company-logo-badge">TI</div>
+              <div>
+                <div class="company-name">TIGO</div>
+                <div class="company-tag">Telecommunications</div>
+              </div>
+            </div>
+
+            <div class="company-card">
+              <div class="company-logo-badge">FI</div>
+              <div>
+                <div class="company-name">FICOHSA</div>
+                <div class="company-tag">Financial Group</div>
+              </div>
+            </div>
+
+            <!-- Set 2 (Duplicated for Seamless Infinite Loop) -->
+            <div class="company-card">
+              <div class="company-logo-badge">PR</div>
+              <div>
+                <div class="company-name">PRINEL S.A. de C.V.</div>
+                <div class="company-tag">Enterprise Systems</div>
+              </div>
+            </div>
+
+            <div class="company-card">
+              <div class="company-logo-badge">MO</div>
+              <div>
+                <div class="company-name">Monelca S.A. de C.V.</div>
+                <div class="company-tag">Industrial & Tech</div>
+              </div>
+            </div>
+
+            <div class="company-card">
+              <div class="company-logo-badge">UN</div>
+              <div>
+                <div class="company-name">UNAN</div>
+                <div class="company-tag">Academic & Systems</div>
+              </div>
+            </div>
+
+            <div class="company-card">
+              <div class="company-logo-badge">TI</div>
+              <div>
+                <div class="company-name">TIGO</div>
+                <div class="company-tag">Telecommunications</div>
+              </div>
+            </div>
+
+            <div class="company-card">
+              <div class="company-logo-badge">FI</div>
+              <div>
+                <div class="company-name">FICOHSA</div>
+                <div class="company-tag">Financial Group</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
- 
-  <!-- Portfolio page -->
-  <div class="vg-page page-portfolio" id="portfolio">
+    </section>
+
+    <!-- ENGINEERING SNAPSHOT (BENTO GRID) -->
+    <section class="section-spacing" id="about">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">ENGINEERING SNAPSHOT</div>
+          <h2 class="section-title">Indicadores de Competencia Técnica</h2>
+          <p class="section-subtitle">Experiencia comprobable en diseño de soluciones empresariales, backend y optimización de datos.</p>
+        </div>
+
+        <div class="bento-grid">
+          <div class="bento-card">
+            <div class="bento-icon">🏢</div>
+            <div>
+              <h3 class="bento-title" data-i18n="bento_title_1">Sistemas Empresariales</h3>
+              <p class="bento-desc" data-i18n="bento_desc_1">Plataformas ERP, CRM y sistemas críticos integrados.</p>
+            </div>
+          </div>
+
+          <div class="bento-card">
+            <div class="bento-icon">⚡</div>
+            <div>
+              <h3 class="bento-title" data-i18n="bento_title_2">Servicios Backend & APIs</h3>
+              <p class="bento-desc" data-i18n="bento_desc_2">Microservicios, APIs REST y comunicación distribuida.</p>
+            </div>
+          </div>
+
+          <div class="bento-card">
+            <div class="bento-icon">🗄️</div>
+            <div>
+              <h3 class="bento-title" data-i18n="bento_title_3">Motores de Base de Datos</h3>
+              <p class="bento-desc" data-i18n="bento_desc_3">SQL Server, Oracle y MySQL optimizados.</p>
+            </div>
+          </div>
+
+          <div class="bento-card">
+            <div class="bento-icon">📐</div>
+            <div>
+              <h3 class="bento-title" data-i18n="bento_title_4">Criterio de Arquitectura</h3>
+              <p class="bento-desc" data-i18n="bento_desc_4">Diseño limpio, escalabilidad y mantenibilidad.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT I BUILD (CAPABILITIES) -->
+    <section class="section-spacing" id="engineering">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag" data-i18n="cap_tag">CAPACIDADES TÉCNICAS</div>
+          <h2 class="section-title" data-i18n="cap_title">Lo que sé construir</h2>
+          <p class="section-subtitle" data-i18n="cap_subtitle">Soluciones de ingeniería enfocadas en resolver problemas de negocio complejos.</p>
+        </div>
+
+        <div class="capabilities-grid">
+          <div class="capability-card">
+            <div class="capability-header">
+              <div class="capability-icon">💻</div>
+              <h3 class="capability-title" data-i18n="cap_1_title">Sistemas Empresariales & ERP</h3>
+            </div>
+            <p class="capability-desc" data-i18n="cap_1_desc">Diseño e implementación de plataformas operativas, automatización de procesos de negocio, gestión de inventarios y sistemas CRM integrados.</p>
+            <div class="capability-tags">
+              <span class="tech-chip">ERP</span>
+              <span class="tech-chip">CRM</span>
+              <span class="tech-chip">C#</span>
+              <span class="tech-chip">.NET</span>
+            </div>
+          </div>
+
+          <div class="capability-card">
+            <div class="capability-header">
+              <div class="capability-icon">⚙️</div>
+              <h3 class="capability-title" data-i18n="cap_2_title">Backend Services & REST APIs</h3>
+            </div>
+            <p class="capability-desc" data-i18n="cap_2_desc">Construcción de servicios backend escalables, conectores de integración, capas de negocio seguras y APIs de alto rendimiento.</p>
+            <div class="capability-tags">
+              <span class="tech-chip">REST APIs</span>
+              <span class="tech-chip">JSON</span>
+              <span class="tech-chip">MVC</span>
+              <span class="tech-chip">C#</span>
+            </div>
+          </div>
+
+          <div class="capability-card">
+            <div class="capability-header">
+              <div class="capability-icon">🏛️</div>
+              <h3 class="capability-title" data-i18n="cap_3_title">Software & Solutions Architecture</h3>
+            </div>
+            <p class="capability-desc" data-i18n="cap_3_desc">Definición de patrones de diseño, separación de responsabilidades, modularidad, reducción de deuda técnica y evolución de sistemas.</p>
+            <div class="capability-tags">
+              <span class="tech-chip">Clean Architecture</span>
+              <span class="tech-chip">Design Patterns</span>
+              <span class="tech-chip">OOP</span>
+            </div>
+          </div>
+
+          <div class="capability-card">
+            <div class="capability-header">
+              <div class="capability-icon">📊</div>
+              <h3 class="capability-title" data-i18n="cap_4_title">Data Architecture & Databases</h3>
+            </div>
+            <p class="capability-desc" data-i18n="cap_4_desc">Modelado relacional de datos, optimización de consultas complejas, procedimientos almacenados, tuning de índices e integridad de datos.</p>
+            <div class="capability-tags">
+              <span class="tech-chip">SQL Server</span>
+              <span class="tech-chip">Oracle</span>
+              <span class="tech-chip">MySQL</span>
+              <span class="tech-chip">Indexing</span>
+            </div>
+          </div>
+
+          <div class="capability-card">
+            <div class="capability-header">
+              <div class="capability-icon">🔄</div>
+              <h3 class="capability-title" data-i18n="cap_5_title">Integración de Sistemas & Eventos</h3>
+            </div>
+            <p class="capability-desc" data-i18n="cap_5_desc">Conexión de sistemas heterogéneos, procesamiento por lotes, mensajería asíncrona e interoperabilidad entre plataformas.</p>
+            <div class="capability-tags">
+              <span class="tech-chip">Integration</span>
+              <span class="tech-chip">Webhooks</span>
+              <span class="tech-chip">Services</span>
+            </div>
+          </div>
+
+          <div class="capability-card">
+            <div class="capability-header">
+              <div class="capability-icon">🐳</div>
+              <h3 class="capability-title" data-i18n="cap_6_title">DevOps, Containers & Deployment</h3>
+            </div>
+            <p class="capability-desc" data-i18n="cap_6_desc">Contenerización con Docker, orquestación, CI/CD, configuración de servidores de aplicaciones y entornos de despliegue confiables.</p>
+            <div class="capability-tags">
+              <span class="tech-chip">Docker</span>
+              <span class="tech-chip">Linux</span>
+              <span class="tech-chip">Apache</span>
+              <span class="tech-chip">CI/CD</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE CASE STUDIES -->
+    <section class="section-spacing" id="architecture">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag" data-i18n="arch_tag">DISEÑO TÉCNICO</div>
+          <h2 class="section-title" data-i18n="arch_title">Casos de Estudio de Arquitectura</h2>
+          <p class="section-subtitle" data-i18n="arch_subtitle">Demostración visual de pensamiento sistémico, integración bancaria y arquitectura de Agentes de IA.</p>
+        </div>
+
+        <div class="arch-cases-container">
+          <!-- Architecture Case 1: AI Agents & WhatsApp / Telegram Chatbot -->
+          <div class="arch-card">
+            <div class="arch-info">
+              <h3 class="arch-info-title">Arquitectura de Agentes IA & Chatbots Multi-Canal</h3>
+              <p class="arch-info-desc">Gateway de mensajería automatizada conectada con Agentes de IA para procesamiento de solicitudes conversacionales en tiempo real vía WhatsApp y Telegram.</p>
+
+              <div class="arch-specs">
+                <div class="arch-spec-item">
+                  <span>🤖</span>
+                  <span><strong>Core AI:</strong> Agentes de IA & Orquestación de Prompts</span>
+                </div>
+                <div class="arch-spec-item">
+                  <span>📱</span>
+                  <span><strong>Channels:</strong> Webhooks WhatsApp Business API & Telegram Bot API</span>
+                </div>
+                <div class="arch-spec-item">
+                  <span>⚙️</span>
+                  <span><strong>Backend:</strong> Async Event Queue & State Persistence</span>
+                </div>
+              </div>
+
+              <button class="btn btn-secondary btn-sm" onclick="showToast('Case Study', 'Arquitectura de Agentes IA & Webhooks desplegada.', 'info')">
+                Ver Detalles de Caso
+              </button>
+            </div>
+
+            <div class="arch-diagram-box">
+              <div class="diagram-flow">
+                <div class="diagram-node">
+                  <div class="node-label">📱 WHATSAPP / TELEGRAM</div>
+                  <span class="node-tech">Webhook Listener API</span>
+                </div>
+                <div class="diagram-arrow">↓ SECURE PAYLOAD ROUTER</div>
+                <div class="diagram-node">
+                  <div class="node-label">🧠 AI AGENT ENGINE</div>
+                  <span class="node-tech">State & Context Handler</span>
+                </div>
+                <div class="diagram-arrow">↓ DATA & RESPONSE ENGINE</div>
+                <div class="diagram-node">
+                  <div class="node-label">🗄️ SERVICES & DATABASE</div>
+                  <span class="node-tech">API / SQL Logs</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Architecture Case 2: Financial ACH Transactions (FICOHSA) -->
+          <div class="arch-card">
+            <div class="arch-info">
+              <h3 class="arch-info-title">Motor de Transacciones Financieras ACH (FICOHSA)</h3>
+              <p class="arch-info-desc">Arquitectura transaccional de alta seguridad para procesamiento, validación y liquidación de transferencias ACH interbancarias con trazabilidad y auditoría completa.</p>
+
+              <div class="arch-specs">
+                <div class="arch-spec-item">
+                  <span>🏦</span>
+                  <span><strong>Banking Standard:</strong> ACH Protocol & Financial Payload Validation</span>
+                </div>
+                <div class="arch-spec-item">
+                  <span>🔒</span>
+                  <span><strong>Security:</strong> Encriptación de datos, HMAC & Firma Digital</span>
+                </div>
+                <div class="arch-spec-item">
+                  <span>🗄️</span>
+                  <span><strong>Data Engine:</strong> SQL Server / Oracle High Availability Cluster</span>
+                </div>
+              </div>
+
+              <button class="btn btn-secondary btn-sm" onclick="showToast('Case Study', 'Arquitectura de Transacciones ACH desplegada.', 'info')">
+                Ver Detalles de Caso
+              </button>
+            </div>
+
+            <div class="arch-diagram-box">
+              <div class="diagram-flow">
+                <div class="diagram-node">
+                  <div class="node-label">💳 BANKING CLIENT / CORE</div>
+                  <span class="node-tech">FICOHSA Core Banking</span>
+                </div>
+                <div class="diagram-arrow">↓ SECURE ACH ENGINE API</div>
+                <div class="diagram-node">
+                  <div class="node-label">⚙️ TRX ACH PROCESSOR</div>
+                  <span class="node-tech">ACID Transaction Manager</span>
+                </div>
+                <div class="diagram-arrow">↓ AUDIT & SETTLEMENT</div>
+                <div class="diagram-node">
+                  <div class="node-label">🗄️ INTERBANK SETTLEMENT DB</div>
+                  <span class="node-tech">SQL Server Cluster</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED PROJECTS -->
+    <section class="section-spacing" id="projects">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag" data-i18n="proj_tag">PORTFOLIO</div>
+          <h2 class="section-title" data-i18n="proj_title">Proyectos Destacados</h2>
+          <p class="section-subtitle" data-i18n="proj_subtitle">Historias de ingeniería con contexto del problema, arquitectura y solución aplicada.</p>
+        </div>
+
+        <div class="projects-grid">
+          <!-- Project 1: ACH Financial Engine -->
+          <div class="project-card">
+            <div class="project-media">
+              <img src="assets/img/work/work-1.jpg" alt="ACH Financial Transactions FICOHSA" class="project-img">
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">Motor de Transacciones Financieras ACH (FICOHSA)</h3>
+
+              <div class="project-section-block">
+                <div class="project-block-title">PROBLEM</div>
+                <p class="project-block-text">Procesamiento de transferencias interbancarias ACH con altos requerimientos de consistencia transaccional, seguridad y cumplimiento bancario.</p>
+              </div>
+
+              <div class="project-section-block">
+                <div class="project-block-title">SOLUTION</div>
+                <p class="project-block-text">Desarrollo de motor transaccional backend para procesamiento de pagos ACH, validaciones de formato, registros de auditoría y comunicación con el core bancario.</p>
+              </div>
+
+              <div class="project-section-block">
+                <div class="project-block-title">ARCHITECTURE & TECH</div>
+                <div class="profile-pills" style="justify-content: flex-start; margin-top:0.4rem;">
+                  <span class="tech-chip">ACH Engine</span>
+                  <span class="tech-chip">C# / .NET</span>
+                  <span class="tech-chip">SQL Server / Oracle</span>
+                  <span class="tech-chip">Financial Security</span>
+                </div>
+              </div>
+
+              <div class="project-meta-row">
+                <span style="font-size:0.85rem; font-weight:600; color:var(--accent-cyan);">Rol: Arquitecto & Desarrollador Principal TRX</span>
+                <button class="btn btn-secondary btn-sm" onclick="showToast('Proyecto Enterprise', 'Caso ACH Ficohsa verificado.', 'info')">Enterprise Case</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 2: AI Agents & Chatbots (WhatsApp & Telegram) -->
+          <div class="project-card">
+            <div class="project-media">
+              <img src="assets/img/work/work-4.jpg" alt="AI Agents WhatsApp Telegram Chatbots" class="project-img">
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">Plataforma de Agentes de IA & Chatbots (WhatsApp & Telegram)</h3>
+
+              <div class="project-section-block">
+                <div class="project-block-title">PROBLEM</div>
+                <p class="project-block-text">Automatización inteligente de atención y consultas operativas sin depender de soporte humano 24/7 en canales de mensajería masivos.</p>
+              </div>
+
+              <div class="project-section-block">
+                <div class="project-block-title">SOLUTION</div>
+                <p class="project-block-text">Plataforma conversacional basada en Agentes de IA integrados a WhatsApp Business API y Telegram Bot API con gestión de contexto y conexión a sistemas backend.</p>
+              </div>
+
+              <div class="project-section-block">
+                <div class="project-block-title">ARCHITECTURE & TECH</div>
+                <div class="profile-pills" style="justify-content: flex-start; margin-top:0.4rem;">
+                  <span class="tech-chip">AI Agents</span>
+                  <span class="tech-chip">WhatsApp Webhooks</span>
+                  <span class="tech-chip">Telegram Bot API</span>
+                  <span class="tech-chip">REST APIs</span>
+                </div>
+              </div>
+
+              <div class="project-meta-row">
+                <span style="font-size:0.85rem; font-weight:600; color:var(--accent-cyan);">Rol: Integrador Lead & Arquitecto IA</span>
+                <a href="https://github.com/edh0210" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">GitHub</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section class="section-spacing" id="tech">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag" data-i18n="tech_tag">STACK TECNOLÓGICO</div>
+          <h2 class="section-title" data-i18n="tech_title">Tecnologías & Herramientas</h2>
+          <p class="section-subtitle" data-i18n="tech_subtitle">Herramientas de software utilizadas en entornos de producción reales.</p>
+        </div>
+
+        <div class="tech-groups">
+          <div class="tech-group-card">
+            <h3 class="tech-group-title">🤖 IA & Bots Conversacionales</h3>
+            <div class="tech-badges-list">
+              <span class="tech-badge">AI Agents & Workflows</span>
+              <span class="tech-badge">WhatsApp Business API</span>
+              <span class="tech-badge">Telegram Bot API</span>
+              <span class="tech-badge">Webhooks & Event Listeners</span>
+            </div>
+          </div>
+
+          <div class="tech-group-card">
+            <h3 class="tech-group-title">🏦 Transacciones & Banca</h3>
+            <div class="tech-badges-list">
+              <span class="tech-badge">ACH Payment Engines (FICOHSA)</span>
+              <span class="tech-badge">Financial Payload Security</span>
+              <span class="tech-badge">Interbank Settlement</span>
+              <span class="tech-badge">Audit & Logging</span>
+            </div>
+          </div>
+
+          <div class="tech-group-card">
+            <h3 class="tech-group-title" data-i18n="tech_cat_1">Lenguajes & Core</h3>
+            <div class="tech-badges-list">
+              <span class="tech-badge">C#</span>
+              <span class="tech-badge">JavaScript</span>
+              <span class="tech-badge">SQL</span>
+              <span class="tech-badge">PHP</span>
+              <span class="tech-badge">HTML5 / CSS3</span>
+            </div>
+          </div>
+
+          <div class="tech-group-card">
+            <h3 class="tech-group-title" data-i18n="tech_cat_2">Backend & Frameworks</h3>
+            <div class="tech-badges-list">
+              <span class="tech-badge">.NET Core / .NET Framework</span>
+              <span class="tech-badge">ASP.NET MVC</span>
+              <span class="tech-badge">RESTful APIs</span>
+              <span class="tech-badge">CodeIgniter / Laravel</span>
+            </div>
+          </div>
+
+          <div class="tech-group-card">
+            <h3 class="tech-group-title" data-i18n="tech_cat_3">Bases de Datos</h3>
+            <div class="tech-badges-list">
+              <span class="tech-badge">Microsoft SQL Server</span>
+              <span class="tech-badge">Oracle Database</span>
+              <span class="tech-badge">MySQL / MariaDB</span>
+              <span class="tech-badge">Stored Procedures</span>
+            </div>
+          </div>
+
+          <div class="tech-group-card">
+            <h3 class="tech-group-title" data-i18n="tech_cat_4">DevOps & Nube</h3>
+            <div class="tech-badges-list">
+              <span class="tech-badge">Docker</span>
+              <span class="tech-badge">Linux Server</span>
+              <span class="tech-badge">Apache / NGINX</span>
+              <span class="tech-badge">Git / GitHub</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENGINEERING APPROACH -->
+    <section class="section-spacing">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag" data-i18n="app_tag">METODOLOGÍA</div>
+          <h2 class="section-title" data-i18n="app_title">Criterio de Ingeniería</h2>
+          <p class="section-subtitle" data-i18n="app_subtitle">Cómo abordo y resuelvo los desafíos tecnológicos.</p>
+        </div>
+
+        <div class="approach-grid">
+          <div class="approach-card">
+            <div class="approach-number">01</div>
+            <h3 class="approach-title" data-i18n="step_1_title">1. Entender el Problema</h3>
+            <p class="approach-desc" data-i18n="step_1_desc">Analizo los requerimientos de negocio e impactos técnicos antes de escribir cualquier línea de código.</p>
+          </div>
+
+          <div class="approach-card">
+            <div class="approach-number">02</div>
+            <h3 class="approach-title" data-i18n="step_2_title">2. Diseñar la Arquitectura</h3>
+            <p class="approach-desc" data-i18n="step_2_desc">Defino responsabilidades, modelos de datos y fronteras de componentes para evitar deuda técnica.</p>
+          </div>
+
+          <div class="approach-card">
+            <div class="approach-number">03</div>
+            <h3 class="approach-title" data-i18n="step_3_title">3. Construir con Calidad</h3>
+            <p class="approach-desc" data-i18n="step_3_desc">Desarrollo código limpio, mantenible y probado utilizando mejores prácticas y patrones comprobados.</p>
+          </div>
+
+          <div class="approach-card">
+            <div class="approach-number">04</div>
+            <h3 class="approach-title" data-i18n="step_4_title">4. Integrar & Conectar</h3>
+            <p class="approach-desc" data-i18n="step_4_desc">Aseguro comunicación fluida entre APIs, bases de datos y servicios externos con manejo de errores.</p>
+          </div>
+
+          <div class="approach-card">
+            <div class="approach-number">05</div>
+            <h3 class="approach-title" data-i18n="step_5_title">5. Optimizar Rendimiento</h3>
+            <p class="approach-desc" data-i18n="step_5_desc">Afinamiento de consultas SQL, reducción de latencia en servicios y optimización de uso de recursos.</p>
+          </div>
+
+          <div class="approach-card">
+            <div class="approach-number">06</div>
+            <h3 class="approach-title" data-i18n="step_6_title">6. Operación & Entrega</h3>
+            <p class="approach-desc" data-i18n="step_6_desc">Automatizo despliegues en contenedores e implemento monitoreo para operación continua.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECHNICAL WRITING -->
+    <section class="section-spacing">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag" data-i18n="notes_tag">PUBLICACIONES & CÓDIGO</div>
+          <h2 class="section-title" data-i18n="notes_title">Notas de Ingeniería</h2>
+          <p class="section-subtitle" data-i18n="notes_subtitle">Artículos técnicos e investigación en arquitectura de software.</p>
+        </div>
+
+        <div class="notes-grid">
+          <!-- Article 1 Card -->
+          <div class="note-card">
+            <div>
+              <div class="note-tag">DATABASE TUNING</div>
+              <h3 class="note-title" data-i18n="note_1_title">Optimización de Consultas Relacionales en SQL Server & Oracle</h3>
+              <p style="font-size:0.875rem; color:var(--text-secondary); margin-top:0.5rem;" data-es="Execution plans, SARGability, indexación avanzada e inspección de memoria." data-en="Execution plans, SARGability, advanced indexing, and memory inspection.">Execution plans, SARGability, indexación avanzada e inspección de memoria.</p>
+            </div>
+            <div style="margin-top:1.25rem;">
+              <a href="blog/database-tuning-sql-server-oracle.html" class="btn btn-secondary btn-sm" style="width:100%;">
+                <span data-es="Leer Artículo Técnico" data-en="Read Engineering Article">Leer Artículo Técnico</span> →
+              </a>
+            </div>
+          </div>
+
+          <!-- Article 2 Card -->
+          <div class="note-card">
+            <div>
+              <div class="note-tag">API DESIGN</div>
+              <h3 class="note-title" data-i18n="note_2_title">Diseño de APIs REST Escalables y Mantenibles</h3>
+              <p style="font-size:0.875rem; color:var(--text-secondary); margin-top:0.5rem;" data-es="Arquitectura de capas, modelos de contrato, idempotencia y observabilidad con Trace ID." data-en="Layered architecture, contracts, idempotency, and observability with Trace ID.">Arquitectura de capas, modelos de contrato, idempotencia y observabilidad con Trace ID.</p>
+            </div>
+            <div style="margin-top:1.25rem;">
+              <a href="blog/api-design-rest-scalable-maintainable.html" class="btn btn-secondary btn-sm" style="width:100%;">
+                <span data-es="Leer Artículo Técnico" data-en="Read Engineering Article">Leer Artículo Técnico</span> →
+              </a>
+            </div>
+          </div>
+
+          <!-- Article 3 Card -->
+          <div class="note-card">
+            <div>
+              <div class="note-tag">DEVOPS & CONTAINERS</div>
+              <h3 class="note-title" data-i18n="note_3_title">Contenerización de Aplicaciones Enterprise con Docker</h3>
+              <p style="font-size:0.875rem; color:var(--text-secondary); margin-top:0.5rem;" data-es="Builds multi-etapa, seguridad en imágenes, Docker Compose y pipelines CI/CD." data-en="Multi-stage builds, container security, Docker Compose, and CI/CD pipelines.">Builds multi-etapa, seguridad en imágenes, Docker Compose y pipelines CI/CD.</p>
+            </div>
+            <div style="margin-top:1.25rem;">
+              <a href="blog/docker-enterprise-containerization.html" class="btn btn-secondary btn-sm" style="width:100%;">
+                <span data-es="Leer Artículo Técnico" data-en="Read Engineering Article">Leer Artículo Técnico</span> →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="section-spacing" id="contact">
+      <div class="container">
+        <div class="contact-box">
+          <h2 class="contact-title" data-i18n="contact_title">¿Construyamos algo relevante?</h2>
+          <p class="contact-desc" data-i18n="contact_subtitle">Abierto a discutir oportunidades en Ingeniería de Software, Arquitectura Backend, Integración y Consultoría de Bases de Datos.</p>
+
+          <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
+            <button onclick="copyEmail()" class="btn btn-primary">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+              <span data-i18n="contact_btn_email">Enviar Correo Electrónico</span>
+            </button>
+            <a href="https://www.linkedin.com/in/edwin-hern%C3%A1ndez-36874058/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+              LinkedIn Profile
+            </a>
+            <a href="https://github.com/edh0210" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+              GitHub Profile
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
     <div class="container">
-      <div class="text-center wow fadeInUp">
-        <div class="badge badge-subhead">Portfolio</div>
-      </div>
-      <h1 class="text-center fw-normal wow fadeInUp">See some of my work</h1>
-
-      <div class="gridder my-3">
-        <div class="grid-item apps wow zoomIn">
-          <div class="img-place" data-src="assets/img/work/work-1.jpg" data-fancybox data-caption="<h5 class='fg-theme'>Wep responsive App</h5> <p>Dinamic Dashboard</p>">
-            <img src="assets/img/work/work-1.jpg" alt="">
-            <div class="img-caption">
-              <h5 class="fg-theme">Wep responsive App</h5>
-              <p>Dinamic Dashboard</p>
-            </div>
-          </div>
-        </div>
-        <div class="grid-item template wireframes wow zoomIn">
-          <div class="img-place" data-src="assets/img/work/work-2.jpg" data-fancybox data-caption="<h5 class='fg-theme'>Geolocations App</h5> <p>ETA and point locations in real time</p>">
-            <img src="assets/img/work/work-2.jpg" alt="">
-            <div class="img-caption">
-              <h5 class="fg-theme">Geolocations App</h5>
-              <p>ETA and point locations in real time</p>
-            </div>
-          </div>
-        </div>
-        <div class="grid-item apps ios wow zoomIn">
-          <div class="img-place" data-src="assets/img/work/work-3.jpg" data-fancybox data-caption="<h5 class='fg-theme'>Grapihcs Chart Resum</h5> <p>Grapihcs Dashboard</p>">
-            <img src="assets/img/work/work-3.jpg" alt="">
-            <div class="img-caption">
-              <h5 class="fg-theme">Grapihcs Chart Resum</h5>
-              <p>Grapihcs Dashboard</p>
-            </div>
-          </div>
-        </div>
-        <div class="grid-item graphic ui-ux wow zoomIn">
-          <div class="img-place" data-src="assets/img/work/work-4.jpg" data-fancybox data-caption="<h5 class='fg-theme'>CRUD on Records</h5> <p>Catalog App</p>">
-            <img src="assets/img/work/work-4.jpg" alt="">
-            <div class="img-caption">
-              <h5 class="fg-theme">CRUD on Records</h5>
-              <p>Catalog App</p>
-            </div>
-          </div>
-        </div>
-        <div class="grid-item apps ios wow zoomIn">
-          <div class="img-place" data-src="assets/img/work/work-5.jpg" data-fancybox data-caption="<h5 class='fg-theme'>Responsive design</h5> <p>Sales and Storage System</p>">
-            <img src="assets/img/work/work-5.jpg" alt="">
-            <div class="img-caption">
-              <h5 class="fg-theme">Responsive design</h5>
-              <p>Sales and Storage System</p>
-            </div>
-          </div>
-        </div>
-        <div class="grid-item graphic ui-ux wireframes wow zoomIn">
-          <div class="img-place" data-src="assets/img/work/work-6.jpg" data-fancybox data-caption="<h5 class='fg-theme'>Sales and Storage</h5> <p>Web responsive App</p>">
-            <img src="assets/img/work/work-6.jpg" alt="">
-            <div class="img-caption">
-              <h5 class="fg-theme">Sales and Storage</h5>
-              <p>Web responsive App</p>
-            </div>
-          </div>
-        </div>
-      </div> <!-- End gridder -->
+      <p>EDH // Edwin Hernández R. — Software Engineer & Enterprise Systems Architect</p>
+      <p style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-muted);">
+        Copyright &copy; 2026. All rights reserved. Designed & Engineered for International Quality.
+      </p>
     </div>
-  </div> <!-- End Portfolio page -->
-  
+  </footer>
 
-  <!-- Footer -->
-  <div class="vg-footer" id="footer">
-    <h1 class="text-center">EDH | PROFILE</h1>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-4 py-3">
-          <div class="footer-info">
-            <p>Where to find me</p>
-            <hr class="divider">
-            <p class="fs-large fg-white">Nicaragua</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3 py-3">
-          <div class="float-lg-right">
-            <p>Follow me</p>
-            <hr class="divider">
-            <ul class="list-unstyled">
-              <li><a href="https://www.linkedin.com/in/edwin-hern%C3%A1ndez-36874058/">My Linkedin</a></li>
-              <li>eduin_hernandez@hotmail.com</li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3 py-3">
-          <div class="float-lg-right">
-            <p>Contact me</p>
-            <hr class="divider">
-            <ul class="list-unstyled">
-              <li>(+505) 81867616</li>
-              <li>(+505) 89889134</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="row justify-content-center mt-3">
-        <div class="col-12">
-          <p class="text-center mb-0 mt-4">Copyright &copy;2020. | By<a href="#">EDH</a></p>
-        </div>
-      </div>
-    </div>
-  </div> <!-- End footer -->
-  
-  <script src="assets/js/jquery-3.5.1.min.js"></script>
-    
-  <script src="assets/js/bootstrap.bundle.min.js"></script>
-    
-  <script src="assets/vendor/owl-carousel/owl.carousel.min.js"></script>
-    
-  <script src="assets/vendor/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-    
-  <script src="assets/vendor/isotope/isotope.pkgd.min.js"></script>
-    
-  <script src="assets/vendor/nice-select/js/jquery.nice-select.min.js"></script>
-    
-  <script src="assets/vendor/fancybox/js/jquery.fancybox.min.js"></script>
-
-  <script src="assets/vendor/wow/wow.min.js"></script>
-
-  <script src="assets/vendor/animateNumber/jquery.animateNumber.min.js"></script>
-
-  <script src="assets/vendor/waypoints/jquery.waypoints.min.js"></script>
-    
-  <script src="assets/js/topbar-virtual.js"></script>
-
-  <script>
-    
-    $('#btn_download').on('click',function() {
-      alert('please write to eduin_hernandez@hotmail.com');
-    });
-
-</script>
-
-  
+  <!-- JavaScript -->
+  <script src="assets/js/main.js"></script>
 </body>
 </html>

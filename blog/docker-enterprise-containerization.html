@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+  <title>Contenerización de Aplicaciones Enterprise con Docker | EDH Engineering Journal</title>
+  <meta name="description" content="Guía técnica sobre contenerización empresarial con Docker, multi-stage builds, seguridad en contenedores, orquestación con Compose y pipelines CI/CD.">
+  <meta name="keywords" content="Docker, DevOps, Containerization, Multi-stage builds, CI/CD, Enterprise Architecture, Linux, Kubernetes">
+  <meta name="author" content="Edwin Hernández (EDH)">
+  <link rel="canonical" href="https://edh0210.github.io/blog/docker-enterprise-containerization.html">
+
+  <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+
+  <!-- HEADER / NAVBAR -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="../index.html" class="brand-logo">
+        <span>EDH</span>
+        <span class="brand-badge">// ARCHITECT</span>
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#home" class="nav-link" data-es="Inicio" data-en="Home">Inicio</a></li>
+        <li><a href="../index.html#about" class="nav-link" data-es="Perfil" data-en="About">Perfil</a></li>
+        <li><a href="../index.html#engineering" class="nav-link" data-es="Capacidades" data-en="Capabilities">Capacidades</a></li>
+        <li><a href="../index.html#architecture" class="nav-link" data-es="Arquitectura" data-en="Architecture">Arquitectura</a></li>
+        <li><a href="../index.html#projects" class="nav-link" data-es="Proyectos" data-en="Projects">Proyectos</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="lang-dropdown-wrapper" id="langDropdownWrapper">
+          <button class="lang-dropdown-btn" id="langDropdownToggle" aria-haspopup="true" aria-expanded="false">
+            <svg class="flag-icon" id="currentFlag" viewBox="0 0 640 480" width="18" height="14">
+              <rect width="640" height="480" fill="#002b7f"/>
+              <rect width="640" height="160" y="160" fill="#fff"/>
+            </svg>
+            <span id="currentLangText">ES</span>
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          <div class="lang-dropdown-menu" id="langDropdownMenu">
+            <button class="lang-option active" onclick="switchLanguage('es')">
+              <svg class="flag-icon" viewBox="0 0 640 480" width="18" height="14"><rect width="640" height="480" fill="#002b7f"/><rect width="640" height="160" y="160" fill="#fff"/></svg>
+              <span>Español</span>
+            </button>
+            <button class="lang-option" onclick="switchLanguage('en')">
+              <svg class="flag-icon" viewBox="0 0 640 480" width="18" height="14"><rect width="640" height="480" fill="#bd3d44"/><path stroke="#fff" stroke-width="37" d="M0 55.4h640M0 129.2h640M0 203h640M0 276.9h640M0 350.7h640M0 424.6h640"/><rect width="256" height="258.5" fill="#192f5d"/></svg>
+              <span>English</span>
+            </button>
+          </div>
+        </div>
+
+        <button class="theme-toggle" id="themeToggleBtn" aria-label="Theme toggle">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        </button>
+
+        <button class="btn btn-secondary btn-sm" onclick="openResumeModal()">CV / Resume</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="article-container">
+    <div class="container">
+      
+      <!-- ARTICLE HERO HEADER -->
+      <div class="article-header">
+        <div class="article-category">DEVOPS & CONTAINER ARCHITECTURE</div>
+        <h1 class="article-main-title" 
+            data-es="Contenerización de Aplicaciones Enterprise con Docker" 
+            data-en="Enterprise Application Containerization with Docker">
+          Contenerización de Aplicaciones Enterprise con Docker
+        </h1>
+        <p class="article-subtitle" 
+           data-es="Más allá de 'docker run': Patrones de ingeniería para empaquetamiento inmutable, builds multi-etapa seguros, orquestación y pipelines CI/CD de producción."
+           data-en="Beyond 'docker run': Engineering patterns for immutable packaging, secure multi-stage builds, orchestration, and production CI/CD pipelines.">
+          Más allá de 'docker run': Patrones de ingeniería para empaquetamiento inmutable, builds multi-etapa seguros, orquestación y pipelines CI/CD de producción.
+        </p>
+
+        <div class="article-meta-bar">
+          <div class="meta-item">
+            <span>👤</span>
+            <span>EDH // Edwin Hernández</span>
+          </div>
+          <div class="meta-item">
+            <span>⏱️</span>
+            <span>11 min read</span>
+          </div>
+          <div class="meta-item">
+            <span>🏷️</span>
+            <span>Docker / DevOps / Multi-Stage / CI/CD</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTICLE GRID (CONTENT + TOC SIDEBAR) -->
+      <div class="article-grid">
+        <article class="article-content">
+          
+          <!-- SECTION 1 -->
+          <h2 id="intro" data-es="1. De 'Funciona en mi Máquina' a Entornos Inmutables" data-en="1. From 'It Works on My Machine' to Immutable Infrastructure">1. De 'Funciona en mi Máquina' a Entornos Inmutables</h2>
+          <p data-es="El empaquetamiento tradicional de software dependía de la instalación manual de dependencias, variables del sistema operativo y servidores de aplicaciones configurados a mano. Esta falta de determinismo era la causa principal del síndrome 'funciona en mi máquina local pero falla en producción'."
+             data-en="Traditional software deployments relied on manual dependency installation, OS environment variables, and hand-crafted application servers. This lack of determinism was the root cause of the infamous 'works locally but fails in production' syndrome.">
+            El empaquetamiento tradicional de software dependía de la instalación manual de dependencias, variables del sistema operativo y servidores de aplicaciones configurados a mano. Esta falta de determinismo era la causa principal del síndrome 'funciona en mi máquina local pero falla en producción'.
+          </p>
+
+          <!-- SECTION 2 -->
+          <h2 id="architecture" data-es="2. Arquitectura Interna de Docker Engine" data-en="2. Docker Engine Architecture">2. Arquitectura Interna de Docker Engine</h2>
+          <p data-es="Docker se basa en la arquitectura cliente-servidor donde la interfaz CLI se comunica mediante sockets Unix o REST APIs con el demonio receptor (Docker Daemon):"
+             data-en="Docker uses a client-server architecture where the CLI communicates via Unix sockets or REST APIs with the underlying Docker Daemon:">
+            Docker se basa en la arquitectura cliente-servidor donde la interfaz CLI se comunica mediante sockets Unix o REST APIs con el demonio receptor (Docker Daemon):
+          </p>
+
+          <!-- SVG DIAGRAM: DOCKER ENGINE ARCHITECTURE -->
+          <div class="diagram-box">
+            <svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="40" width="160" height="120" rx="8" fill="#131b2e" stroke="#38bdf8" stroke-width="2"/>
+              <text x="100" y="80" fill="#38bdf8" font-size="14" font-weight="bold" text-anchor="middle">DOCKER CLI</text>
+              <text x="100" y="110" fill="#94a3b8" font-size="11" text-anchor="middle">docker build</text>
+              <text x="100" y="130" fill="#94a3b8" font-size="11" text-anchor="middle">docker run</text>
+
+              <path d="M 180 100 L 260 100" stroke="#38bdf8" stroke-width="2"/>
+
+              <rect x="260" y="20" width="280" height="160" rx="8" fill="#131b2e" stroke="#6366f1" stroke-width="2"/>
+              <text x="400" y="50" fill="#f8fafc" font-size="14" font-weight="bold" text-anchor="middle">DOCKER DAEMON (dockerd)</text>
+              
+              <rect x="280" y="75" width="110" height="40" rx="6" fill="#0b0f17" stroke="#6366f1" stroke-width="1"/>
+              <text x="335" y="100" fill="#38bdf8" font-size="11" text-anchor="middle">Image Cache</text>
+
+              <rect x="410" y="75" width="110" height="40" rx="6" fill="#0b0f17" stroke="#10b981" stroke-width="1"/>
+              <text x="465" y="100" fill="#10b981" font-size="11" text-anchor="middle">Containers</text>
+
+              <rect x="280" y="125" width="240" height="35" rx="6" fill="#0b0f17" stroke="#94a3b8" stroke-width="1"/>
+              <text x="400" y="147" fill="#94a3b8" font-size="11" text-anchor="middle">Linux cgroups & namespaces</text>
+
+              <path d="M 540 100 L 620 100" stroke="#6366f1" stroke-width="2"/>
+
+              <rect x="620" y="40" width="160" height="120" rx="8" fill="#131b2e" stroke="#10b981" stroke-width="2"/>
+              <text x="700" y="80" fill="#10b981" font-size="14" font-weight="bold" text-anchor="middle">REGISTRY</text>
+              <text x="700" y="110" fill="#94a3b8" font-size="11" text-anchor="middle">Docker Hub</text>
+              <text x="700" y="130" fill="#94a3b8" font-size="11" text-anchor="middle">Azure ACR</text>
+            </svg>
+            <div class="diagram-caption" data-es="Figura 1: Arquitectura de componentes de Docker Engine y flujo de compilación/registro." data-en="Figure 1: Docker Engine component architecture and container execution lifecycle.">
+              Figura 1: Arquitectura de componentes de Docker Engine y flujo de compilación/registro.
+            </div>
+          </div>
+
+          <!-- SECTION 3 -->
+          <h2 id="multistage" data-es="3. Builds Multi-Etapa (Multi-Stage Builds) de Producción" data-en="3. Production Multi-Stage Builds">3. Builds Multi-Etapa (Multi-Stage Builds) de Producción</h2>
+          <p data-es="Incluir herramientas de compilación (compiladores, SDKs, código fuente raw) en la imagen final de producción incrementa exponencialmente el tamaño y la superficie de ataques de seguridad. La solución técnica son los <strong>Multi-stage builds</strong>:"
+             data-en="Including build SDKs, compilers, and source code in the final production image exponentially inflates image size and attack surface. The engineering solution is <strong>Multi-stage builds</strong>:">
+            Incluir herramientas de compilación (compiladores, SDKs, código fuente raw) en la imagen final de producción incrementa exponencialmente el tamaño y la superficie de ataques de seguridad. La solución técnica son los <strong>Multi-stage builds</strong>:
+          </p>
+
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span class="code-lang">Dockerfile</span>
+              <button class="btn-copy-code" onclick="copyCode(this)">Copy Code</button>
+            </div>
+            <pre><code># STAGE 1: Compilation & Build Environment
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+WORKDIR /src
+
+# Copy project definition and restore dependencies (Caching layer)
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copy all source code and compile optimized production release
+COPY . ./
+RUN dotnet publish -c Release -o /app/out
+
+# STAGE 2: Minimal Production Runtime Environment
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS runtime-env
+WORKDIR /app
+
+# Security: Create non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
+# Copy only the compiled binaries from Stage 1
+COPY --from=build-env /app/out ./
+
+EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:8080
+
+ENTRYPOINT ["dotnet", "EnterpriseApp.dll"]</code></pre>
+          </div>
+
+          <!-- SECTION 4 -->
+          <h2 id="compose" data-es="4. Orquestación Multi-Contenedor con Docker Compose" data-en="4. Multi-Container Orchestration with Docker Compose">4. Orquestación Multi-Contenedor con Docker Compose</h2>
+          <p data-es="Para simular el ecosistema enterprise de producción en entornos locales, utilizamos <code>docker-compose.yml</code> definiendo redes aisladas, volúmenes de persistencia y dependencias de inicio (<code>depends_on</code>):"
+             data-en="To replicate the multi-service enterprise environment locally, we use <code>docker-compose.yml</code> configuring isolated networks, persistent storage, and startup dependencies:">
+            Para simular el ecosistema enterprise de producción en entornos locales, utilizamos <code>docker-compose.yml</code> definiendo redes aisladas, volúmenes de persistencia y dependencias de inicio (<code>depends_on</code>):
+          </p>
+
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span class="code-lang">YAML (docker-compose.yml)</span>
+              <button class="btn-copy-code" onclick="copyCode(this)">Copy Code</button>
+            </div>
+            <pre><code>version: '3.8'
+
+services:
+  web-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ConnectionStrings__Database=Server=db;Database=EnterpriseDB;User Id=sa;Password=${DB_PASSWORD};
+      - Redis__Configuration=cache:6379
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_started
+    networks:
+      - backend-network
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - sql-data:/var/opt/mssql/data
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${DB_PASSWORD} -Q 'SELECT 1'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend-network
+
+  cache:
+    image: redis:7-alpine
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
+
+volumes:
+  sql-data:</code></pre>
+          </div>
+
+          <!-- SECTION 5 -->
+          <h2 id="cicd" data-es="5. Pipeline CI/CD Enterprise con Contenedores" data-en="5. Enterprise CI/CD Pipeline Architecture">5. Pipeline CI/CD Enterprise con Contenedores</h2>
+          <p data-es="El contenedor actúa como la unidad de artefacto inmutable aprobada a lo largo del ciclo de integración continua (CI) y entrega continua (CD):"
+             data-en="The container image acts as the single immutable release artifact moving through continuous integration and deployment stages:">
+            El contenedor actúa como la unidad de artefacto inmutable aprobada a lo largo del ciclo de integración continua (CI) y entrega continua (CD):
+          </p>
+
+          <!-- SVG DIAGRAM: CI/CD PIPELINE -->
+          <div class="diagram-box">
+            <svg viewBox="0 0 800 160" xmlns="http://www.w3.org/2000/svg">
+              <rect x="15" y="40" width="110" height="70" rx="6" fill="#131b2e" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="70" y="70" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">1. GIT PUSH</text>
+              <text x="70" y="85" fill="#38bdf8" font-size="9" text-anchor="middle">Feature Commit</text>
+
+              <path d="M 125 75 L 150 75" stroke="#38bdf8" stroke-width="2"/>
+
+              <rect x="150" y="40" width="120" height="70" rx="6" fill="#131b2e" stroke="#6366f1" stroke-width="1.5"/>
+              <text x="210" y="70" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">2. CI BUILD</text>
+              <text x="210" y="85" fill="#6366f1" font-size="9" text-anchor="middle">Docker Build</text>
+
+              <path d="M 270 75 L 295 75" stroke="#6366f1" stroke-width="2"/>
+
+              <rect x="295" y="40" width="130" height="70" rx="6" fill="#131b2e" stroke="#f59e0b" stroke-width="1.5"/>
+              <text x="360" y="70" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">3. SECURITY SCAN</text>
+              <text x="360" y="85" fill="#f59e0b" font-size="9" text-anchor="middle">Trivy Vulnerability</text>
+
+              <path d="M 425 75 L 450 75" stroke="#f59e0b" stroke-width="2"/>
+
+              <rect x="450" y="40" width="130" height="70" rx="6" fill="#131b2e" stroke="#10b981" stroke-width="1.5"/>
+              <text x="515" y="70" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">4. REGISTRY PUSH</text>
+              <text x="515" y="85" fill="#10b981" font-size="9" text-anchor="middle">Tagged Image</text>
+
+              <path d="M 580 75 L 605 75" stroke="#10b981" stroke-width="2"/>
+
+              <rect x="605" y="40" width="180" height="70" rx="6" fill="#131b2e" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="695" y="70" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">5. PROD DEPLOY</text>
+              <text x="695" y="85" fill="#38bdf8" font-size="9" text-anchor="middle">Kubernetes / Cloud App</text>
+            </svg>
+            <div class="diagram-caption" data-es="Figura 2: Pipeline de CI/CD automatizado con escaneo de vulnerabilidades e imágenes inmutables." data-en="Figure 2: Automated container CI/CD pipeline with security scanning and immutable deployment.">
+              Figura 2: Pipeline de CI/CD automatizado con escaneo de vulnerabilidades e imágenes inmutables.
+            </div>
+          </div>
+
+          <!-- SECTION 6 -->
+          <h2 id="security" data-es="6. Prácticas de Seguridad en Contenedores" data-en="6. Container Security Best Practices">6. Prácticas de Seguridad en Contenedores</h2>
+          <ul>
+            <li><strong>Non-Root User:</strong> Nunca ejecute contenedores como usuario <code>root</code>. Defina siempre un usuario no privilegiado en la directiva <code>USER</code>.</li>
+            <li><strong>Minimal Runtime Base Images:</strong> Prefiera distribuciones ultra livianas como Alpine Linux o imágenes Distroless para reducir vulnerabilidades CVE.</li>
+            <li><strong>Secrets Isolation:</strong> Nunca incruste contraseñas, tokens JWT o claves de API dentro de las capas del Dockerfile. Utilice variables de entorno inyectadas en tiempo de ejecución.</li>
+            <li><strong>Image Tag Pinning:</strong> Evite usar el tag <code>latest</code> en producción. Especifique siempre versiones explícitas e inmutables (ej. <code>redis:7.0.12-alpine</code>).</li>
+          </ul>
+
+          <!-- SECTION 7 -->
+          <h2 id="checklist" data-es="7. Checklist de Contenerización Enterprise" data-en="7. Enterprise Containerization Checklist">7. Checklist de Contenerización Enterprise</h2>
+          <div class="checklist-grid">
+            <div class="checklist-item">☑ [ ] Implement Multi-Stage Builds (Separate Build & Runtime)</div>
+            <div class="checklist-item">☑ [ ] Enforce Non-Root Execution (USER appuser)</div>
+            <div class="checklist-item">☑ [ ] Pin Base Image Versions (Avoid :latest tag)</div>
+            <div class="checklist-item">☑ [ ] Inject Secrets via Environment / Vault (No Secrets in Layers)</div>
+            <div class="checklist-item">☑ [ ] Configure HEALTHCHECK Probes (Liveness & Readiness)</div>
+            <div class="checklist-item">☑ [ ] Use Managed Docker Volumes for Stateful Storage</div>
+            <div class="checklist-item">☑ [ ] Isolate Container Networks via Bridge Driver</div>
+            <div class="checklist-item">☑ [ ] Automated Vulnerability Scanning in CI/CD Pipeline</div>
+          </div>
+
+          <!-- FOOTER & CROSS LINKING -->
+          <div class="article-footer-box">
+            <div class="author-card">
+              <img src="../assets/img/person.jpg" alt="Edwin Hernández" class="author-img">
+              <div>
+                <h4 style="font-size:1.1rem; margin-bottom:0.25rem;">Edwin Hernández R.</h4>
+                <p style="font-size:0.875rem; color:var(--text-secondary);"
+                   data-es="Software Engineer & Enterprise Systems Architect especializado en bases de datos relacionales, backend y arquitecturas de integración."
+                   data-en="Software Engineer & Enterprise Systems Architect specialized in relational databases, backend services, and integration systems.">
+                  Software Engineer & Enterprise Systems Architect especializado en bases de datos relacionales, backend y arquitecturas de integración.
+                </p>
+              </div>
+            </div>
+
+            <h3 style="font-size:1.2rem; margin-bottom:1.25rem;" data-es="Seguir Explorando el Journal" data-en="Continue Exploring the Journal">Seguir Explorando el Journal</h3>
+            <div class="cross-nav-grid">
+              <a href="database-tuning-sql-server-oracle.html" class="cross-nav-card">
+                <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-cyan); margin-bottom:0.5rem;">ARTICLE 1</div>
+                <h4 style="font-size:1.05rem; margin-bottom:0.35rem;" data-es="Optimización de Consultas en SQL Server & Oracle" data-en="Query Tuning in SQL Server & Oracle">Optimización de Consultas en SQL Server & Oracle</h4>
+                <p style="font-size:0.85rem; color:var(--text-muted);" data-es="Execution plans, SARGability e indexación relacional." data-en="Execution plans, SARGability, and indexing.">Execution plans, SARGability e indexación relacional.</p>
+              </a>
+
+              <a href="api-design-rest-scalable-maintainable.html" class="cross-nav-card">
+                <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-cyan); margin-bottom:0.5rem;">ARTICLE 2</div>
+                <h4 style="font-size:1.05rem; margin-bottom:0.35rem;" data-es="Diseño de APIs REST Escalables y Mantenibles" data-en="Designing Scalable & Maintainable REST APIs">Diseño de APIs REST Escalables y Mantenibles</h4>
+                <p style="font-size:0.85rem; color:var(--text-muted);" data-es="Patrones de contrato, idempotencia y observabilidad." data-en="API contracts, idempotency, and observability.">Patrones de contrato, idempotencia y observabilidad.</p>
+              </a>
+            </div>
+          </div>
+
+        </article>
+
+        <!-- STICKY TABLE OF CONTENTS SIDEBAR -->
+        <aside class="toc-sidebar">
+          <div class="toc-header-title">
+            <span>📌</span>
+            <span data-es="Contenido del Artículo" data-en="Table of Contents">Contenido del Artículo</span>
+          </div>
+          <ul class="toc-list">
+            <li><a href="#intro" class="toc-link" data-es="1. Infraestructura Inmutable" data-en="1. Immutable Infrastructure">1. Infraestructura Inmutable</a></li>
+            <li><a href="#architecture" class="toc-link" data-es="2. Arquitectura Docker Engine" data-en="2. Docker Architecture">2. Arquitectura Docker Engine</a></li>
+            <li><a href="#multistage" class="toc-link" data-es="3. Multi-stage Builds" data-en="3. Multi-Stage Builds">3. Multi-stage Builds</a></li>
+            <li><a href="#compose" class="toc-link" data-es="4. Docker Compose" data-en="4. Docker Compose">4. Docker Compose</a></li>
+            <li><a href="#cicd" class="toc-link" data-es="5. Pipeline CI/CD" data-en="5. CI/CD Pipeline">5. Pipeline CI/CD</a></li>
+            <li><a href="#security" class="toc-link" data-es="6. Seguridad en Docker" data-en="6. Container Security">6. Seguridad en Docker</a></li>
+            <li><a href="#checklist" class="toc-link" data-es="7. Checklist Enterprise" data-en="7. Enterprise Checklist">7. Checklist Enterprise</a></li>
+          </ul>
+        </aside>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>EDH // Edwin Hernández R. — Software Engineer & Enterprise Systems Architect</p>
+      <p style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-muted);">
+        Copyright &copy; 2026. All rights reserved. Designed & Engineered for International Quality.
+      </p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

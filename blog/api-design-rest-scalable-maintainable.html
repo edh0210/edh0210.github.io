@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+  <title>Diseño de APIs REST Escalables y Mantenibles | EDH Engineering Journal</title>
+  <meta name="description" content="Guía técnica sobre diseño de APIs REST empresariales, arquitectura de capas, contratos de error, idempotencia, observabilidad y trade-offs entre monolitos y microservicios.">
+  <meta name="keywords" content="REST API, API Design, Idempotency, Microservices, System Architecture, JSON, HTTP, API Gateway, Backend Engineer">
+  <meta name="author" content="Edwin Hernández (EDH)">
+  <link rel="canonical" href="https://edh0210.github.io/blog/api-design-rest-scalable-maintainable.html">
+
+  <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+
+  <!-- HEADER / NAVBAR -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="../index.html" class="brand-logo">
+        <span>EDH</span>
+        <span class="brand-badge">// ARCHITECT</span>
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#home" class="nav-link" data-es="Inicio" data-en="Home">Inicio</a></li>
+        <li><a href="../index.html#about" class="nav-link" data-es="Perfil" data-en="About">Perfil</a></li>
+        <li><a href="../index.html#engineering" class="nav-link" data-es="Capacidades" data-en="Capabilities">Capacidades</a></li>
+        <li><a href="../index.html#architecture" class="nav-link" data-es="Arquitectura" data-en="Architecture">Architecture</a></li>
+        <li><a href="../index.html#projects" class="nav-link" data-es="Proyectos" data-en="Projects">Proyectos</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="lang-dropdown-wrapper" id="langDropdownWrapper">
+          <button class="lang-dropdown-btn" id="langDropdownToggle" aria-haspopup="true" aria-expanded="false">
+            <svg class="flag-icon" id="currentFlag" viewBox="0 0 640 480" width="18" height="14">
+              <rect width="640" height="480" fill="#002b7f"/>
+              <rect width="640" height="160" y="160" fill="#fff"/>
+            </svg>
+            <span id="currentLangText">ES</span>
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          <div class="lang-dropdown-menu" id="langDropdownMenu">
+            <button class="lang-option active" onclick="switchLanguage('es')">
+              <svg class="flag-icon" viewBox="0 0 640 480" width="18" height="14"><rect width="640" height="480" fill="#002b7f"/><rect width="640" height="160" y="160" fill="#fff"/></svg>
+              <span>Español</span>
+            </button>
+            <button class="lang-option" onclick="switchLanguage('en')">
+              <svg class="flag-icon" viewBox="0 0 640 480" width="18" height="14"><rect width="640" height="480" fill="#bd3d44"/><path stroke="#fff" stroke-width="37" d="M0 55.4h640M0 129.2h640M0 203h640M0 276.9h640M0 350.7h640M0 424.6h640"/><rect width="256" height="258.5" fill="#192f5d"/></svg>
+              <span>English</span>
+            </button>
+          </div>
+        </div>
+
+        <button class="theme-toggle" id="themeToggleBtn" aria-label="Theme toggle">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        </button>
+
+        <button class="btn btn-secondary btn-sm" onclick="openResumeModal()">CV / Resume</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="article-container">
+    <div class="container">
+      
+      <!-- ARTICLE HERO HEADER -->
+      <div class="article-header">
+        <div class="article-category">API DESIGN & SOFTWARE ARCHITECTURE</div>
+        <h1 class="article-main-title" 
+            data-es="Diseño de APIs REST Escalables y Mantenibles" 
+            data-en="Designing Scalable & Maintainable REST APIs">
+          Diseño de APIs REST Escalables y Mantenibles
+        </h1>
+        <p class="article-subtitle" 
+           data-es="Principios de ingeniería para construir interfaces de integración empresarial capaces de evolucionar durante años sin romper contratos ni degradar el rendimiento."
+           data-en="Engineering principles for building enterprise integration APIs designed to evolve for years without breaking contracts or degrading performance.">
+          Principios de ingeniería para construir interfaces de integración empresarial capaces de evolucionar durante años sin romper contratos ni degradar el rendimiento.
+        </p>
+
+        <div class="article-meta-bar">
+          <div class="meta-item">
+            <span>👤</span>
+            <span>EDH // Edwin Hernández</span>
+          </div>
+          <div class="meta-item">
+            <span>⏱️</span>
+            <span>10 min read</span>
+          </div>
+          <div class="meta-item">
+            <span>🏷️</span>
+            <span>REST APIs / Microservices / API Gateway</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTICLE GRID (CONTENT + TOC SIDEBAR) -->
+      <div class="article-grid">
+        <article class="article-content">
+          
+          <!-- SECTION 1 -->
+          <h2 id="intro" data-es="1. El Desafío de la Mantenibilidad en APIs" data-en="1. The Long-Term API Maintainability Challenge">1. El Desafío de la Mantenibilidad en APIs</h2>
+          <p data-es="Una API REST que funciona perfectamente en el día 1 puede convertirse en una pesadilla arquitectónica 2 años después. El diseño apresurado de endpoints sin un modelo claro de dominios, contratos de error o estrategias de versionamiento conduce inexorablemente al acoplamiento rígido y a fallas en producción al intentar evolucionar el sistema."
+             data-en="A REST API that operates seamlessly on day one can devolve into an architectural nightmare two years later. Hasty endpoint design without domain boundaries, error contracts, or versioning leads to coupling and production failures during system evolution.">
+            Una API REST que funciona perfectamente en el día 1 puede convertirse en una pesadilla arquitectónica 2 años después. El diseño apresurado de endpoints sin un modelo claro de dominios, contratos de error o estrategias de versionamiento conduce inexorablemente al acoplamiento rígido y a fallas en producción al intentar evolucionar el sistema.
+          </p>
+
+          <!-- SECTION 2 -->
+          <h2 id="architecture" data-es="2. Arquitectura de Capas de una API Empresarial" data-en="2. Layered Enterprise API Architecture">2. Arquitectura de Capas de una API Empresarial</h2>
+          <p data-es="Para garantizar el desacoplamiento entre las solicitudes HTTP y la persistencia de datos, la API debe organizarse en capas con límites bien definidos:"
+             data-en="To ensure separation of concerns between HTTP payloads and database persistence, the API must be structured into distinct layers:">
+            Para garantizar el desacoplamiento entre las solicitudes HTTP y la persistencia de datos, la API debe organizarse en capas con límites bien definidos:
+          </p>
+
+          <!-- SVG DIAGRAM: API ARCHITECTURE LAYERS -->
+          <div class="diagram-box">
+            <svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="20" width="760" height="40" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="400" y="45" fill="#38bdf8" font-size="13" font-weight="bold" text-anchor="middle">API GATEWAY / INGRESS (SSL, Rate Limiting, JWT Auth)</text>
+
+              <path d="M 400 60 L 400 80" stroke="#38bdf8" stroke-width="2"/>
+
+              <rect x="50" y="85" width="700" height="40" rx="6" fill="#131b2e" stroke="#6366f1" stroke-width="1.5"/>
+              <text x="400" y="110" fill="#f8fafc" font-size="13" font-weight="bold" text-anchor="middle">CONTROLLER LAYER (REST Routing, Validation, DTO Mapping)</text>
+
+              <path d="M 400 125 L 400 145" stroke="#6366f1" stroke-width="2"/>
+
+              <rect x="80" y="150" width="640" height="40" rx="6" fill="#131b2e" stroke="#10b981" stroke-width="1.5"/>
+              <text x="400" y="175" fill="#f8fafc" font-size="13" font-weight="bold" text-anchor="middle">DOMAIN SERVICE LAYER (Business Rules, Transactions, Events)</text>
+
+              <path d="M 400 190 L 400 205" stroke="#10b981" stroke-width="2"/>
+
+              <rect x="150" y="205" width="500" height="30" rx="6" fill="#0b0f17" stroke="#94a3b8" stroke-width="1.5"/>
+              <text x="400" y="225" fill="#94a3b8" font-size="12" font-weight="bold" text-anchor="middle">DATA REPOSITORY & PERSISTENCE (SQL Server, Oracle, External Services)</text>
+            </svg>
+            <div class="diagram-caption" data-es="Figura 1: Arquitectura de capas desacoplada para APIs empresariales." data-en="Figure 1: Decoupled multi-layered enterprise REST API architecture.">
+              Figura 1: Arquitectura de capas desacoplada para APIs empresariales.
+            </div>
+          </div>
+
+          <!-- SECTION 3 -->
+          <h2 id="semantics" data-es="3. Semántica HTTP & Recursos REST" data-en="3. HTTP Semantics & REST Resources">3. Semántica HTTP & Recursos REST</h2>
+          <p data-es="Los endpoints deben diseñarse orientados a recursos (sustantivos en plural) y utilizar los verbos HTTP de manera idempotente y consistente con el estándar RFC 7231:"
+             data-en="Endpoints must be resource-oriented (plural nouns) and utilize HTTP verbs consistently according to RFC 7231 idempotency guarantees:">
+            Los endpoints deben diseñarse orientados a recursos (sustantivos en plural) y utilizar los verbos HTTP de manera idempotente y consistente con el estándar RFC 7231:
+          </p>
+
+          <div class="article-table-container">
+            <table class="article-table">
+              <thead>
+                <tr>
+                  <th>HTTP Verb</th>
+                  <th data-es="Operación / Propósito" data-en="Operation / Purpose">Operación / Propósito</th>
+                  <th data-es="Idempotente" data-en="Idempotent">Idempotente</th>
+                  <th data-es="Código HTTP Esperado" data-en="Expected Status Code">Código HTTP Esperado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>GET</code></td>
+                  <td>Obtener recurso(s) sin efectos secundarios</td>
+                  <td>SI</td>
+                  <td><code>200 OK</code> / <code>404 Not Found</code></td>
+                </tr>
+                <tr>
+                  <td><code>POST</code></td>
+                  <td>Crear un nuevo recurso o ejecutar acción</td>
+                  <td>NO</td>
+                  <td><code>201 Created</code> (con header <code>Location</code>)</td>
+                </tr>
+                <tr>
+                  <td><code>PUT</code></td>
+                  <td>Reemplazo completo del recurso</td>
+                  <td>SI</td>
+                  <td><code>200 OK</code> / <code>204 No Content</code></td>
+                </tr>
+                <tr>
+                  <td><code>PATCH</code></td>
+                  <td>Modificación parcial del recurso</td>
+                  <td>NO (generalmente)</td>
+                  <td><code>200 OK</code></td>
+                </tr>
+                <tr>
+                  <td><code>DELETE</code></td>
+                  <td>Eliminar recurso existente</td>
+                  <td>SI</td>
+                  <td><code>204 No Content</code> / <code>200 OK</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- SECTION 4 -->
+          <h2 id="contract" data-es="4. Definición de Contrato & DTOs" data-en="4. Contract Definition & Strict DTOs">4. Definición de Contrato & DTOs</h2>
+          <p data-es="Nunca exponga directamente las entidades ORM o modelos de base de datos en los controladores API. Utilice siempre DTOs (Data Transfer Objects) con validación estricta:"
+             data-en="Never expose ORM entities directly in API controllers. Always enforce strict Data Transfer Objects (DTOs) with field validation:">
+            Nunca exponga directamente las entidades ORM o modelos de base de datos en los controladores API. Utilice siempre DTOs (Data Transfer Objects) con validación estricta:
+          </p>
+
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span class="code-lang">JSON Payload</span>
+              <button class="btn-copy-code" onclick="copyCode(this)">Copy Code</button>
+            </div>
+            <pre><code>// Request: POST /api/v1/customers
+{
+  "companyName": "Acme Enterprise Corp",
+  "taxId": "J031000012345",
+  "contactEmail": "finance@acme.com",
+  "creditLimit": 50000.00
+}
+
+// Response: 201 Created
+{
+  "customerId": "cust_10928374",
+  "companyName": "Acme Enterprise Corp",
+  "status": "ACTIVE",
+  "createdAt": "2026-09-22T14:30:00Z"
+}</code></pre>
+          </div>
+
+          <!-- SECTION 5 -->
+          <h2 id="error-model" data-es="5. Modelo Unificado de Respuestas de Error" data-en="5. Unified Error Response Model">5. Modelo Unificado de Respuestas de Error</h2>
+          <p data-es="Los errores forman parte fundamental del contrato técnico de la API. Devuelva siempre estructuras de error homogéneas con códigos de error de negocio y rastreabilidad:"
+             data-en="Error payloads are a critical component of the API contract. Always return standardized JSON error structures with business error codes and trace identifiers:">
+            Los errores forman parte fundamental del contrato técnico de la API. Devuelva siempre estructuras de error homogéneas con códigos de error de negocio y rastreabilidad:
+          </p>
+
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span class="code-lang">JSON Error Response (400 Bad Request)</span>
+              <button class="btn-copy-code" onclick="copyCode(this)">Copy Code</button>
+            </div>
+            <pre><code>{
+  "error": {
+    "code": "INVALID_TAX_ID_FORMAT",
+    "message": "The provided taxId does not conform to national validation rules.",
+    "status": 400,
+    "timestamp": "2026-09-22T14:35:12Z",
+    "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00"
+  }
+}</code></pre>
+          </div>
+
+          <!-- SECTION 6 -->
+          <h2 id="idempotency" data-es="6. Patrón de Idempotencia en Operaciones Financieras" data-en="6. Idempotency Pattern in Financial Operations">6. Patrón de Idempotencia en Operaciones Financieras</h2>
+          <p data-es="En operaciones críticas como cobros o transferencias bancarias (ej. sistemas ACH), las reintentos de red pueden causar cobros duplicados. El uso del encabezado <code>Idempotency-Key</code> garantiza procesamiento único:"
+             data-en="In critical operations like interbank ACH payments, network retries can trigger duplicate charges. The <code>Idempotency-Key</code> header pattern guarantees single execution:">
+            En operaciones críticas como cobros o transferencias bancarias (ej. sistemas ACH), las reintentos de red pueden causar cobros duplicados. El uso del encabezado <code>Idempotency-Key</code> garantiza procesamiento único:
+          </p>
+
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span class="code-lang">HTTP Request with Idempotency Key</span>
+              <button class="btn-copy-code" onclick="copyCode(this)">Copy Code</button>
+            </div>
+            <pre><code>POST /api/v1/payments/ach-transfer HTTP/1.1
+Host: api.enterprisebank.com
+Authorization: Bearer eyJhbGciOi...
+Idempotency-Key: e6b18c0c-5694-4f2a-89a3-5c2763b1901a
+Content-Type: application/json
+
+{
+  "sourceAccount": "100293847",
+  "destinationAccount": "992837461",
+  "amount": 12500.00,
+  "currency": "USD"
+}</code></pre>
+          </div>
+
+          <!-- SECTION 7 -->
+          <h2 id="observability" data-es="7. Observabilidad & Trazabilidad (Trace IDs)" data-en="7. API Observability & Trace ID Propagation">7. Observabilidad & Trazabilidad (Trace IDs)</h2>
+          <p data-es="Una API sin observabilidad es imposible de operar en producción. Cada solicitud que ingresa por el API Gateway debe generar o propagar un <code>Trace ID</code> W3C distribuido:"
+             data-en="An API lacking observability cannot be operated reliably. Every inbound request passing the API Gateway must inject or propagate a distributed W3C <code>Trace ID</code>:">
+            Una API sin observabilidad es imposible de operar en producción. Cada solicitud que ingresa por el API Gateway debe generar o propagar un <code>Trace ID</code> W3C distribuido:
+          </p>
+
+          <!-- SVG DIAGRAM: TRACE ID PROPAGATION -->
+          <div class="diagram-box">
+            <svg viewBox="0 0 800 160" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="40" width="160" height="60" rx="8" fill="#131b2e" stroke="#38bdf8" stroke-width="2"/>
+              <text x="100" y="70" fill="#f8fafc" font-size="12" font-weight="bold" text-anchor="middle">HTTP CLIENT</text>
+              <text x="100" y="85" fill="#38bdf8" font-size="10" text-anchor="middle">TraceId: 0x4bf92f...</text>
+
+              <path d="M 180 70 L 250 70" stroke="#38bdf8" stroke-width="2"/>
+
+              <rect x="250" y="40" width="160" height="60" rx="8" fill="#131b2e" stroke="#6366f1" stroke-width="2"/>
+              <text x="330" y="70" fill="#f8fafc" font-size="12" font-weight="bold" text-anchor="middle">API GATEWAY</text>
+              <text x="330" y="85" fill="#6366f1" font-size="10" text-anchor="middle">Logs TraceId</text>
+
+              <path d="M 410 70 L 480 70" stroke="#6366f1" stroke-width="2"/>
+
+              <rect x="480" y="40" width="160" height="60" rx="8" fill="#131b2e" stroke="#10b981" stroke-width="2"/>
+              <text x="560" y="70" fill="#f8fafc" font-size="12" font-weight="bold" text-anchor="middle">BACKEND SERVICE</text>
+              <text x="560" y="85" fill="#10b981" font-size="10" text-anchor="middle">DB Query + TraceId</text>
+            </svg>
+            <div class="diagram-caption" data-es="Figura 2: Propagación de Trace ID para monitoreo de latencia y diagnósticos en distribuido." data-en="Figure 2: Distributed Trace ID propagation for end-to-end telemetry and debugging.">
+              Figura 2: Propagación de Trace ID para monitoreo de latencia y diagnósticos en distribuido.
+            </div>
+          </div>
+
+          <!-- SECTION 8 -->
+          <h2 id="tradeoffs" data-es="8. Trade-Offs de Arquitectura: Monolito API vs Microservicios" data-en="8. Architecture Trade-Offs: Monolith API vs Microservices">8. Trade-Offs de Arquitectura: Monolito API vs Microservicios</h2>
+          <p data-es="Los microservicios no son una bala de plata. Dividir una API en múltiples servicios independientes impone una alta complejidad operativa en red, latencia inter-servicio y consistencia eventual:"
+             data-en="Microservices are not a universal solution. Decomposing a system introduces network complexity, inter-service latency, and eventual consistency challenges:">
+            Los microservicios no son una bala de plata. Dividir una API en múltiples servicios independientes impone una alta complejidad operativa en red, latencia inter-servicio y consistencia eventual:
+          </p>
+
+          <div class="article-table-container">
+            <table class="article-table">
+              <thead>
+                <tr>
+                  <th data-es="Criterio" data-en="Criterion">Criterio</th>
+                  <th>Monolith API (Modular)</th>
+                  <th>Microservices Architecture</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-es="Complejidad Operativa" data-en="Operational Complexity">Complejidad Operativa</td>
+                  <td>Baja (Único despliegue, depuración simple)</td>
+                  <td>Alta (Orquestación, Service Mesh, CI/CD independiente)</td>
+                </tr>
+                <tr>
+                  <td data-es="Consistencia de Datos" data-en="Data Consistency">Consistencia de Datos</td>
+                  <td>ACID Transaccional Fuerte</td>
+                  <td>Eventual Consistency / Patrón Saga</td>
+                </tr>
+                <tr>
+                  <td data-es="Latencia" data-en="Network Latency">Latencia</td>
+                  <td>Llamadas en memoria ultrarrápidas</td>
+                  <td>Llamadas HTTP/gRPC por red (Hop Overhead)</td>
+                </tr>
+                <tr>
+                  <td data-es="Escalabilidad de Equipos" data-en="Team Scalability">Escalabilidad de Equipos</td>
+                  <td>Limitada a 15-20 ingenieros</td>
+                  <td>Alta (Equipos autónomos por dominio)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- SECTION 9 -->
+          <h2 id="checklist" data-es="9. Checklist de Diseño de APIs REST" data-en="9. REST API Design Checklist">9. Checklist de Diseño de APIs REST</h2>
+          <div class="checklist-grid">
+            <div class="checklist-item">☑ [ ] Enforce Noun-Based Plural Endpoints (/api/v1/customers)</div>
+            <div class="checklist-item">☑ [ ] Standardize HTTP Status Codes (200, 201, 400, 401, 404, 500)</div>
+            <div class="checklist-item">☑ [ ] Implement Strict Request Input DTO Validation</div>
+            <div class="checklist-item">☑ [ ] Enforce Unified Error Response Structure with TraceId</div>
+            <div class="checklist-item">☑ [ ] Support Idempotency-Key Header for Financial Writes</div>
+            <div class="checklist-item">☑ [ ] Inject Distributed W3C Trace IDs in API Gateway</div>
+            <div class="checklist-item">☑ [ ] Implement Keyset/Cursor Pagination for Large Collections</div>
+            <div class="checklist-item">☑ [ ] Add Rate Limiting & OpenAPI / Swagger Documentation</div>
+          </div>
+
+          <!-- FOOTER & CROSS LINKING -->
+          <div class="article-footer-box">
+            <div class="author-card">
+              <img src="../assets/img/person.jpg" alt="Edwin Hernández" class="author-img">
+              <div>
+                <h4 style="font-size:1.1rem; margin-bottom:0.25rem;">Edwin Hernández R.</h4>
+                <p style="font-size:0.875rem; color:var(--text-secondary);"
+                   data-es="Software Engineer & Enterprise Systems Architect especializado en bases de datos relacionales, backend y arquitecturas de integración."
+                   data-en="Software Engineer & Enterprise Systems Architect specialized in relational databases, backend services, and integration systems.">
+                  Software Engineer & Enterprise Systems Architect especializado en bases de datos relacionales, backend y arquitecturas de integración.
+                </p>
+              </div>
+            </div>
+
+            <h3 style="font-size:1.2rem; margin-bottom:1.25rem;" data-es="Seguir Explorando el Journal" data-en="Continue Exploring the Journal">Seguir Explorando el Journal</h3>
+            <div class="cross-nav-grid">
+              <a href="database-tuning-sql-server-oracle.html" class="cross-nav-card">
+                <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-cyan); margin-bottom:0.5rem;">ARTICLE 1</div>
+                <h4 style="font-size:1.05rem; margin-bottom:0.35rem;" data-es="Optimización de Consultas en SQL Server & Oracle" data-en="Query Tuning in SQL Server & Oracle">Optimización de Consultas en SQL Server & Oracle</h4>
+                <p style="font-size:0.85rem; color:var(--text-muted);" data-es="Execution plans, SARGability e indexación relacional." data-en="Execution plans, SARGability, and indexing.">Execution plans, SARGability e indexación relacional.</p>
+              </a>
+
+              <a href="docker-enterprise-containerization.html" class="cross-nav-card">
+                <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-cyan); margin-bottom:0.5rem;">ARTICLE 3</div>
+                <h4 style="font-size:1.05rem; margin-bottom:0.35rem;" data-es="Contenerización Enterprise con Docker" data-en="Enterprise Containerization with Docker">Contenerización Enterprise con Docker</h4>
+                <p style="font-size:0.85rem; color:var(--text-muted);" data-es="Multi-stage builds, seguridad y pipelines CI/CD." data-en="Multi-stage builds, security, and CI/CD pipelines.">Multi-stage builds, seguridad y pipelines CI/CD.</p>
+              </a>
+            </div>
+          </div>
+
+        </article>
+
+        <!-- STICKY TABLE OF CONTENTS SIDEBAR -->
+        <aside class="toc-sidebar">
+          <div class="toc-header-title">
+            <span>📌</span>
+            <span data-es="Contenido del Artículo" data-en="Table of Contents">Contenido del Artículo</span>
+          </div>
+          <ul class="toc-list">
+            <li><a href="#intro" class="toc-link" data-es="1. Mantenibilidad de APIs" data-en="1. API Maintainability">1. Mantenibilidad de APIs</a></li>
+            <li><a href="#architecture" class="toc-link" data-es="2. Arquitectura de Capas" data-en="2. Layered Architecture">2. Arquitectura de Capas</a></li>
+            <li><a href="#semantics" class="toc-link" data-es="3. Semántica HTTP" data-en="3. HTTP Semantics">3. Semántica HTTP</a></li>
+            <li><a href="#contract" class="toc-link" data-es="4. Contratos & DTOs" data-en="4. Contracts & DTOs">4. Contratos & DTOs</a></li>
+            <li><a href="#error-model" class="toc-link" data-es="5. Respuestas de Error" data-en="5. Error Model">5. Respuestas de Error</a></li>
+            <li><a href="#idempotency" class="toc-link" data-es="6. Idempotencia" data-en="6. Idempotency Pattern">6. Idempotencia</a></li>
+            <li><a href="#observability" class="toc-link" data-es="7. Observabilidad Trace ID" data-en="7. Observability & Tracing">7. Observabilidad Trace ID</a></li>
+            <li><a href="#tradeoffs" class="toc-link" data-es="8. Trade-Offs Monolito vs Micro" data-en="8. Monolith vs Microservices">8. Trade-Offs Monolito vs Micro</a></li>
+            <li><a href="#checklist" class="toc-link" data-es="9. Checklist REST API" data-en="9. REST API Checklist">9. Checklist REST API</a></li>
+          </ul>
+        </aside>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>EDH // Edwin Hernández R. — Software Engineer & Enterprise Systems Architect</p>
+      <p style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-muted);">
+        Copyright &copy; 2026. All rights reserved. Designed & Engineered for International Quality.
+      </p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

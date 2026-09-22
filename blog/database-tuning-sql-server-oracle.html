@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+  <title>Optimización de Consultas Relacionales en SQL Server & Oracle | EDH Engineering Journal</title>
+  <meta name="description" content="Guía técnica de ingeniería sobre optimización de bases de datos relacionales, análisis de execution plans, SARGability, indexación y comparación SQL Server vs Oracle.">
+  <meta name="keywords" content="SQL Server, Oracle, Database Tuning, Execution Plan, Indexing, SARGability, Performance, Database Engineer">
+  <meta name="author" content="Edwin Hernández (EDH)">
+  <link rel="canonical" href="https://edh0210.github.io/blog/database-tuning-sql-server-oracle.html">
+
+  <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+
+  <!-- HEADER / NAVBAR -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="../index.html" class="brand-logo">
+        <span>EDH</span>
+        <span class="brand-badge">// ARCHITECT</span>
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html#home" class="nav-link" data-es="Inicio" data-en="Home">Inicio</a></li>
+        <li><a href="../index.html#about" class="nav-link" data-es="Perfil" data-en="About">Perfil</a></li>
+        <li><a href="../index.html#engineering" class="nav-link" data-es="Capacidades" data-en="Capabilities">Capacidades</a></li>
+        <li><a href="../index.html#architecture" class="nav-link" data-es="Arquitectura" data-en="Architecture">Arquitectura</a></li>
+        <li><a href="../index.html#projects" class="nav-link" data-es="Proyectos" data-en="Projects">Proyectos</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="lang-dropdown-wrapper" id="langDropdownWrapper">
+          <button class="lang-dropdown-btn" id="langDropdownToggle" aria-haspopup="true" aria-expanded="false">
+            <svg class="flag-icon" id="currentFlag" viewBox="0 0 640 480" width="18" height="14">
+              <rect width="640" height="480" fill="#002b7f"/>
+              <rect width="640" height="160" y="160" fill="#fff"/>
+            </svg>
+            <span id="currentLangText">ES</span>
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          <div class="lang-dropdown-menu" id="langDropdownMenu">
+            <button class="lang-option active" onclick="switchLanguage('es')">
+              <svg class="flag-icon" viewBox="0 0 640 480" width="18" height="14"><rect width="640" height="480" fill="#002b7f"/><rect width="640" height="160" y="160" fill="#fff"/></svg>
+              <span>Español</span>
+            </button>
+            <button class="lang-option" onclick="switchLanguage('en')">
+              <svg class="flag-icon" viewBox="0 0 640 480" width="18" height="14"><rect width="640" height="480" fill="#bd3d44"/><path stroke="#fff" stroke-width="37" d="M0 55.4h640M0 129.2h640M0 203h640M0 276.9h640M0 350.7h640M0 424.6h640"/><rect width="256" height="258.5" fill="#192f5d"/></svg>
+              <span>English</span>
+            </button>
+          </div>
+        </div>
+
+        <button class="theme-toggle" id="themeToggleBtn" aria-label="Theme toggle">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        </button>
+
+        <button class="btn btn-secondary btn-sm" onclick="openResumeModal()">CV / Resume</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="article-container">
+    <div class="container">
+      
+      <!-- ARTICLE HERO HEADER -->
+      <div class="article-header">
+        <div class="article-category">DATABASE TUNING & PERFORMANCE</div>
+        <h1 class="article-main-title" 
+            data-es="Optimización de Consultas Relacionales en SQL Server & Oracle" 
+            data-en="Relational Query Tuning in SQL Server & Oracle">
+          Optimización de Consultas Relacionales en SQL Server & Oracle
+        </h1>
+        <p class="article-subtitle" 
+           data-es="Una guía técnica de ingeniería sobre análisis de planes de ejecución, SARGability, indexación avanzada y estrategias de afinamiento de base de datos empresariales."
+           data-en="An engineering guide on execution plan analysis, SARGability, advanced indexing strategies, and database tuning in enterprise engines.">
+          Una guía técnica de ingeniería sobre análisis de planes de ejecución, SARGability, indexación avanzada y estrategias de afinamiento de base de datos empresariales.
+        </p>
+
+        <div class="article-meta-bar">
+          <div class="meta-item">
+            <span>👤</span>
+            <span>EDH // Edwin Hernández</span>
+          </div>
+          <div class="meta-item">
+            <span>⏱️</span>
+            <span>12 min read</span>
+          </div>
+          <div class="meta-item">
+            <span>🏷️</span>
+            <span>SQL Server / Oracle / Relational Tuning</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTICLE GRID (CONTENT + TOC SIDEBAR) -->
+      <div class="article-grid">
+        <article class="article-content">
+          
+          <!-- SECTION 1 -->
+          <h2 id="intro" data-es="1. Introducción: Diagnóstico antes de Indexar" data-en="1. Introduction: Diagnosis Before Indexing">1. Introducción: Diagnóstico antes de Indexar</h2>
+          <p data-es="En sistemas empresariales con terabytes de información y miles de operaciones por segundo, una consulta lenta rara vez se soluciona agregando un índice a ciegas. La improvisación en la capa de datos suele generar deuda técnica, contención en la caché de búfer y degradación del rendimiento de escritura."
+             data-en="In enterprise systems processing terabytes of transactional data, a slow query is rarely solved by blindly adding an index. Haphazard indexing creates technical debt, buffer pool contention, and write performance degradation.">
+            En sistemas empresariales con terabytes de información y miles de operaciones por segundo, una consulta lenta rara vez se soluciona agregando un índice a ciegas. La improvisación en la capa de datos suele generar deuda técnica, contención en la caché de búfer y degradación del rendimiento de escritura.
+          </p>
+          
+          <div class="callout callout-warning">
+            <div class="callout-title" data-es="⚠️ Axioma de Ingeniería de Base de Datos" data-en="⚠️ Database Engineering Axiom">⚠️ Axioma de Ingeniería de Base de Datos</div>
+            <p data-es="Cada índice secundario acelera lecturas específicas, pero impone un costo transaccional directo en operaciones INSERT, UPDATE y DELETE debido al mantenimiento de las estructuras B-Tree y la fragmentación de páginas."
+               data-en="Every secondary index accelerates specific reads but incurs a direct transactional cost on INSERT, UPDATE, and DELETE operations due to B-Tree page maintenance and fragmentation.">
+              Cada índice secundario acelera lecturas específicas, pero impone un costo transaccional directo en operaciones INSERT, UPDATE y DELETE debido al mantenimiento de las estructuras B-Tree y la fragmentación de páginas.
+            </p>
+          </div>
+
+          <!-- SECTION 2 -->
+          <h2 id="lifecycle" data-es="2. El Ciclo de Optimización de Consultas" data-en="2. The Query Optimization Lifecycle">2. El Ciclo de Optimización de Consultas</h2>
+          <p data-es="El proceso de afinamiento relacional debe seguir una metodología empírica y repetible. A continuación se presenta el flujo de trabajo de optimización de ingeniería:"
+             data-en="Relational query tuning must follow a systematic, repeatable engineering methodology. Below is the structured optimization lifecycle:">
+            El proceso de afinamiento relacional debe seguir una metodología empírica y repetible. A continuación se presenta el flujo de trabajo de optimización de ingeniería:
+          </p>
+
+          <!-- SVG DIAGRAM: OPTIMIZATION LIFECYCLE -->
+          <div class="diagram-box">
+            <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#38bdf8;stop-opacity:0.2" />
+                  <stop offset="100%" style="stop-color:#6366f1;stop-opacity:0.2" />
+                </linearGradient>
+              </defs>
+              <!-- Flow Nodes -->
+              <rect x="20" y="80" width="110" height="60" rx="8" fill="url(#grad1)" stroke="#38bdf8" stroke-width="2"/>
+              <text x="75" y="115" fill="#f8fafc" font-size="13" font-weight="bold" text-anchor="middle">1. QUERY</text>
+              
+              <path d="M 130 110 L 150 110" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)"/>
+              
+              <rect x="155" y="80" width="110" height="60" rx="8" fill="url(#grad1)" stroke="#38bdf8" stroke-width="2"/>
+              <text x="210" y="115" fill="#f8fafc" font-size="13" font-weight="bold" text-anchor="middle">2. MEASURE</text>
+
+              <path d="M 265 110 L 285 110" stroke="#38bdf8" stroke-width="2"/>
+
+              <rect x="290" y="80" width="120" height="60" rx="8" fill="url(#grad1)" stroke="#6366f1" stroke-width="2"/>
+              <text x="350" y="115" fill="#f8fafc" font-size="12" font-weight="bold" text-anchor="middle">3. EXEC PLAN</text>
+
+              <path d="M 410 110 L 430 110" stroke="#6366f1" stroke-width="2"/>
+
+              <rect x="435" y="80" width="120" height="60" rx="8" fill="url(#grad1)" stroke="#6366f1" stroke-width="2"/>
+              <text x="495" y="115" fill="#f8fafc" font-size="12" font-weight="bold" text-anchor="middle">4. BOTTLENECK</text>
+
+              <path d="M 555 110 L 575 110" stroke="#6366f1" stroke-width="2"/>
+
+              <rect x="580" y="80" width="110" height="60" rx="8" fill="url(#grad1)" stroke="#10b981" stroke-width="2"/>
+              <text x="635" y="115" fill="#f8fafc" font-size="12" font-weight="bold" text-anchor="middle">5. BENCHMARK</text>
+            </svg>
+            <div class="diagram-caption" data-es="Figura 1: Ciclo metódico de medición, análisis de plan de ejecución y validación de benchmarks." data-en="Figure 1: Methodical query optimization lifecycle: Measure, Analyze Execution Plan, Refactor, and Benchmark.">
+              Figura 1: Ciclo metódico de medición, análisis de plan de ejecución y validación de benchmarks.
+            </div>
+          </div>
+
+          <!-- SECTION 3 -->
+          <h2 id="sqlserver" data-es="3. Análisis de Planes de Ejecución en SQL Server" data-en="3. Execution Plan Analysis in SQL Server">3. Análisis de Planes de Ejecución en SQL Server</h2>
+          <p data-es="En Microsoft SQL Server, el Optimizador de Consultas basado en costos (Cost-Based Optimizer) genera el plan de ejecución analizando la cardinalidad estimada a partir de las estadísticas almacenadas. Entender los operadores clave es fundamental:"
+             data-en="In Microsoft SQL Server, the Cost-Based Optimizer (CBO) generates the execution plan using estimated cardinality from statistics. Understanding operators is paramount:">
+            En Microsoft SQL Server, el Optimizador de Consultas basado en costos (Cost-Based Optimizer) genera el plan de ejecución analizando la cardinalidad estimada a partir de las estadísticas almacenadas. Entender los operadores clave es fundamental:
+          </p>
+
+          <ul>
+            <li><strong>Index Seek:</strong> Búsqueda directa en la estructura B-Tree utilizando los campos clave del índice. O(log N). Escenario óptimo.</li>
+            <li><strong>Index Scan / Table Scan:</strong> Recorrido completo del índice o de la tabla. O(N). Ocurre cuando faltan índices o cuando la consulta carece de SARGability.</li>
+            <li><strong>Key Lookup:</strong> Ocurre cuando un índice secundario no incluye todas las columnas solicitadas en el SELECT, requiriendo navegación adicional a la tabla base (Clustered Index/Heap).</li>
+            <li><strong>Nested Loops vs Hash Match:</strong> <em>Nested Loops</em> es eficiente para conjuntos pequeños; <em>Hash Match</em> se utiliza para grandes volúmenes con alto consumo de memoria RAM (Worktables en tempdb).</li>
+          </ul>
+
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span class="code-lang">TSQL</span>
+              <button class="btn-copy-code" onclick="copyCode(this)">Copy Code</button>
+            </div>
+            <pre><code>-- Captura de métricas I/O y tiempo de CPU en SQL Server
+SET STATISTICS IO ON;
+SET STATISTICS TIME ON;
+
+SELECT 
+    c.CustomerID,
+    c.CompanyName,
+    o.OrderID,
+    o.OrderDate
+FROM Sales.Customer c
+INNER JOIN Sales.SalesOrderHeader o ON c.CustomerID = o.CustomerID
+WHERE o.OrderDate >= '2026-01-01' AND o.OrderDate < '2026-02-01';
+
+SET STATISTICS IO OFF;
+SET STATISTICS TIME OFF;</code></pre>
+          </div>
+
+          <!-- SECTION 4 -->
+          <h2 id="sargability" data-es="4. El Concepto Crítico de SARGability" data-en="4. The Critical Concept of SARGability">4. El Concepto Crítico de SARGability</h2>
+          <p data-es="Una predicado es <strong>SARGable</strong> (Search Argument Able) cuando el optimizador puede aprovechar un índice existente para realizar una búsqueda por rango (Index Seek) en lugar de un escaneo completo (Scan)."
+             data-en="A predicate is <strong>SARGable</strong> (Search Argument Able) when the query optimizer can utilize an index to perform an Index Seek rather than scanning the entire dataset.">
+            Una predicado es <strong>SARGable</strong> (Search Argument Able) cuando el optimizador puede aprovechar un índice existente para realizar una búsqueda por rango (Index Seek) en lugar de un escaneo completo (Scan).
+          </p>
+
+          <div class="article-table-container">
+            <table class="article-table">
+              <thead>
+                <tr>
+                  <th data-es="Patrón No SARGable (Scans lentos)" data-en="Non-SARGable Pattern (Slow Scan)">Patrón No SARGable (Scans lentos)</th>
+                  <th data-es="Patrón SARGable Optimizado (Index Seek)" data-en="Optimized SARGable Pattern (Index Seek)">Patrón SARGable Optimizado (Index Seek)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>WHERE YEAR(OrderDate) = 2026</code></td>
+                  <td><code>WHERE OrderDate >= '20260101' AND OrderDate < '20270101'</code></td>
+                </tr>
+                <tr>
+                  <td><code>WHERE UPPER(LastName) = 'HERNANDEZ'</code></td>
+                  <td><code>WHERE LastName = 'Hernandez'</code> (Collation Case-Insensitive)</td>
+                </tr>
+                <tr>
+                  <td><code>WHERE CustomerID + 10 = 1050</code></td>
+                  <td><code>WHERE CustomerID = 1040</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- SECTION 5 -->
+          <h2 id="indexing" data-es="5. Estrategias de Indexación Avanzada" data-en="5. Advanced Indexing Strategies">5. Estrategias de Indexación Avanzada</h2>
+          <p data-es="La creación de índices debe responder a patrones de acceso específicos. La técnica de <strong>Covering Indexes</strong> mediante la cláusula <code>INCLUDE</code> elimina por completo los costos de <em>Key Lookup</em>:"
+             data-en="Index creation must align with query access patterns. <strong>Covering Indexes</strong> using the <code>INCLUDE</code> clause eliminate expensive <em>Key Lookups</em> entirely:">
+            La creación de índices debe responder a patrones de acceso específicos. La técnica de <strong>Covering Indexes</strong> mediante la cláusula <code>INCLUDE</code> elimina por completo los costos de <em>Key Lookup</em>:
+          </p>
+
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span class="code-lang">TSQL</span>
+              <button class="btn-copy-code" onclick="copyCode(this)">Copy Code</button>
+            </div>
+            <pre><code>-- Índice de cobertura (Covering Index) con cláusula INCLUDE
+CREATE NONCLUSTERED INDEX IX_SalesOrder_Status_Date
+ON Sales.SalesOrderHeader (Status, OrderDate)
+INCLUDE (CustomerID, TotalDue);</code></pre>
+          </div>
+
+          <!-- SECTION 6 -->
+          <h2 id="oracle" data-es="6. Tuning en Oracle Database & Cost-Based Optimizer" data-en="6. Tuning in Oracle Database & Cost-Based Optimizer">6. Tuning en Oracle Database & Cost-Based Optimizer</h2>
+          <p data-es="En Oracle Database, el análisis de rendimiento se realiza inspeccionando la tabla de plan con <code>DBMS_XPLAN</code> y monitoreando el consumo de bloques en la SGA (System Global Area):"
+             data-en="In Oracle Database, performance analysis involves inspecting the execution plan using <code>DBMS_XPLAN</code> and tracking SGA buffer gets:">
+            En Oracle Database, el análisis de rendimiento se realiza inspeccionando la tabla de plan con <code>DBMS_XPLAN</code> y monitoreando el consumo de bloques en la SGA (System Global Area):
+          </p>
+
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span class="code-lang">PL/SQL</span>
+              <button class="btn-copy-code" onclick="copyCode(this)">Copy Code</button>
+            </div>
+            <pre><code>-- Generación e inspección del plan de ejecución en Oracle
+EXPLAIN PLAN FOR
+SELECT /*+ GATHER_PLAN_STATISTICS */
+    c.customer_id, c.company_name, o.order_id
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+WHERE o.order_date >= TO_DATE('2026-01-01', 'YYYY-MM-DD');
+
+SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY(FORMAT => 'ALLSTATS LAST'));</code></pre>
+          </div>
+
+          <!-- SECTION 7 -->
+          <h2 id="comparison" data-es="7. Cuadro Comparativo: SQL Server vs Oracle" data-en="7. Comparative Analysis: SQL Server vs Oracle">7. Cuadro Comparativo: SQL Server vs Oracle</h2>
+
+          <div class="article-table-container">
+            <table class="article-table">
+              <thead>
+                <tr>
+                  <th data-es="Concepto" data-en="Concept">Concepto</th>
+                  <th>SQL Server</th>
+                  <th>Oracle Database</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Execution Plan</td>
+                  <td><code>SET STATISTICS XML ON;</code> / SSMS</td>
+                  <td><code>EXPLAIN PLAN</code> / <code>DBMS_XPLAN</code></td>
+                </tr>
+                <tr>
+                  <td>Default Table Organization</td>
+                  <td>Clustered Index (B-Tree)</td>
+                  <td>Heap Table (Index-Organized optional)</td>
+                </tr>
+                <tr>
+                  <td>Statistics Update</td>
+                  <td><code>UPDATE STATISTICS</code> / Auto-Update</td>
+                  <td><code>DBMS_STATS.GATHER_TABLE_STATS</code></td>
+                </tr>
+                <tr>
+                  <td>Pagination Syntax</td>
+                  <td><code>OFFSET n ROWS FETCH NEXT m ROWS ONLY</code></td>
+                  <td><code>OFFSET n ROWS FETCH NEXT m ROWS ONLY</code> / <code>ROWNUM</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- SECTION 8 -->
+          <h2 id="pagination" data-es="8. Estrategias de Paginación: Keyset vs Offset" data-en="8. Pagination Strategies: Keyset vs Offset">8. Estrategias de Paginación: Keyset vs Offset</h2>
+          <p data-es="En conjuntos de datos de millones de registros, utilizar <code>OFFSET 1000000 ROWS FETCH NEXT 20 ROWS ONLY</code> destruye el rendimiento debido a que el motor debe leer y descartar un millón de filas. La solución de ingeniería es utilizar <strong>Keyset Pagination (Seek Method)</strong>:"
+             data-en="In multi-million row tables, <code>OFFSET 1000000 ROWS FETCH NEXT 20 ROWS ONLY</code> suffers from severe degradation because the engine must read and discard 1M rows. The engineering pattern is <strong>Keyset Pagination (Seek Method)</strong>:">
+            En conjuntos de datos de millones de registros, utilizar <code>OFFSET 1000000 ROWS FETCH NEXT 20 ROWS ONLY</code> destruye el rendimiento debido a que el motor debe leer y descartar un millón de filas. La solución de ingeniería es utilizar <strong>Keyset Pagination (Seek Method)</strong>:
+          </p>
+
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span class="code-lang">TSQL</span>
+              <button class="btn-copy-code" onclick="copyCode(this)">Copy Code</button>
+            </div>
+            <pre><code>-- Keyset Pagination (O(1) Seek constante)
+SELECT TOP(20) OrderID, OrderDate, CustomerID
+FROM Sales.SalesOrderHeader
+WHERE OrderDate < @LastOrderDate 
+   OR (OrderDate = @LastOrderDate AND OrderID < @LastOrderID)
+ORDER BY OrderDate DESC, OrderID DESC;</code></pre>
+          </div>
+
+          <!-- SECTION 9 -->
+          <h2 id="antipatterns" data-es="9. Anti-patrones Comunes en Base de Datos" data-en="9. Common Database Tuning Anti-Patterns">9. Anti-patrones Comunes en Base de Datos</h2>
+          <ul>
+            <li><strong>SELECT * in Production APIs:</strong> Transfiere columnas innecesarias por la red y evita el uso de <em>Covering Indexes</em>.</li>
+            <li><strong>Over-indexing:</strong> Crear un índice por cada columna consultada degrada masivamente los tiempos de escritura.</li>
+            <li><strong>Implicit Type Conversion:</strong> Comparar columnas <code>NVARCHAR</code> con parámetros <code>VARCHAR</code> obliga a una conversión implícita por fila, desactivando búsquedas por índice.</li>
+            <li><strong>N+1 Query Problem:</strong> Ejecutar una consulta relacional dentro de un bucle de aplicación en lugar de utilizar JOINs o cargas en lote.</li>
+          </ul>
+
+          <!-- SECTION 10 -->
+          <h2 id="checklist" data-es="10. Checklist de Optimización de Base de Datos" data-en="10. Database Tuning Engineering Checklist">10. Checklist de Optimización de Base de Datos</h2>
+          <div class="checklist-grid">
+            <div class="checklist-item">☑ [ ] Measure Baseline Metrics (CPU / IO / Elapsed Time)</div>
+            <div class="checklist-item">☑ [ ] Analyze Execution Plan (Seek vs Scan, Lookups)</div>
+            <div class="checklist-item">☑ [ ] Verify SARGability on WHERE & JOIN Predicates</div>
+            <div class="checklist-item">☑ [ ] Check Index Coverage & Column Order</div>
+            <div class="checklist-item">☑ [ ] Update Statistics & Cardinality Estimates</div>
+            <div class="checklist-item">☑ [ ] Validate Parameter Sniffing Mitigation</div>
+            <div class="checklist-item">☑ [ ] Replace OFFSET with Keyset Pagination for Large Datasets</div>
+            <div class="checklist-item">☑ [ ] Regression Test Under Concurrent Load</div>
+          </div>
+
+          <!-- FOOTER & CROSS LINKING -->
+          <div class="article-footer-box">
+            <div class="author-card">
+              <img src="../assets/img/person.jpg" alt="Edwin Hernández" class="author-img">
+              <div>
+                <h4 style="font-size:1.1rem; margin-bottom:0.25rem;">Edwin Hernández R.</h4>
+                <p style="font-size:0.875rem; color:var(--text-secondary);"
+                   data-es="Software Engineer & Enterprise Systems Architect especializado en bases de datos relacionales, backend y arquitecturas de integración."
+                   data-en="Software Engineer & Enterprise Systems Architect specialized in relational databases, backend services, and integration systems.">
+                  Software Engineer & Enterprise Systems Architect especializado en bases de datos relacionales, backend y arquitecturas de integración.
+                </p>
+              </div>
+            </div>
+
+            <h3 style="font-size:1.2rem; margin-bottom:1.25rem;" data-es="Seguir Explorando el Journal" data-en="Continue Exploring the Journal">Seguir Explorando el Journal</h3>
+            <div class="cross-nav-grid">
+              <a href="api-design-rest-scalable-maintainable.html" class="cross-nav-card">
+                <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-cyan); margin-bottom:0.5rem;">NEXT ARTICLE</div>
+                <h4 style="font-size:1.05rem; margin-bottom:0.35rem;" data-es="Diseño de APIs REST Escalables y Mantenibles" data-en="Designing Scalable & Maintainable REST APIs">Diseño de APIs REST Escalables y Mantenibles</h4>
+                <p style="font-size:0.85rem; color:var(--text-muted);" data-es="Patrones de contrato, idempotencia y observabilidad." data-en="API contracts, idempotency, and observability.">Patrones de contrato, idempotencia y observabilidad.</p>
+              </a>
+
+              <a href="docker-enterprise-containerization.html" class="cross-nav-card">
+                <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--accent-cyan); margin-bottom:0.5rem;">NEXT ARTICLE</div>
+                <h4 style="font-size:1.05rem; margin-bottom:0.35rem;" data-es="Contenerización Enterprise con Docker" data-en="Enterprise Containerization with Docker">Contenerización Enterprise con Docker</h4>
+                <p style="font-size:0.85rem; color:var(--text-muted);" data-es="Multi-stage builds, seguridad y pipelines CI/CD." data-en="Multi-stage builds, security, and CI/CD pipelines.">Multi-stage builds, seguridad y pipelines CI/CD.</p>
+              </a>
+            </div>
+          </div>
+
+        </article>
+
+        <!-- STICKY TABLE OF CONTENTS SIDEBAR -->
+        <aside class="toc-sidebar">
+          <div class="toc-header-title">
+            <span>📌</span>
+            <span data-es="Contenido del Artículo" data-en="Table of Contents">Contenido del Artículo</span>
+          </div>
+          <ul class="toc-list">
+            <li><a href="#intro" class="toc-link" data-es="1. Introducción" data-en="1. Introduction">1. Introducción</a></li>
+            <li><a href="#lifecycle" class="toc-link" data-es="2. Ciclo de Optimización" data-en="2. Optimization Lifecycle">2. Ciclo de Optimización</a></li>
+            <li><a href="#sqlserver" class="toc-link" data-es="3. SQL Server Tuning" data-en="3. SQL Server Tuning">3. SQL Server Tuning</a></li>
+            <li><a href="#sargability" class="toc-link" data-es="4. Concepto SARGability" data-en="4. SARGability Concept">4. Concepto SARGability</a></li>
+            <li><a href="#indexing" class="toc-link" data-es="5. Indexación Avanzada" data-en="5. Advanced Indexing">5. Indexación Avanzada</a></li>
+            <li><a href="#oracle" class="toc-link" data-es="6. Tuning en Oracle" data-en="6. Oracle Tuning">6. Tuning en Oracle</a></li>
+            <li><a href="#comparison" class="toc-link" data-es="7. Comparativa SQL vs Oracle" data-en="7. SQL vs Oracle Table">7. Comparativa SQL vs Oracle</a></li>
+            <li><a href="#pagination" class="toc-link" data-es="8. Keyset vs Offset" data-en="8. Keyset vs Offset">8. Keyset vs Offset</a></li>
+            <li><a href="#antipatterns" class="toc-link" data-es="9. Anti-patrones" data-en="9. Anti-patterns">9. Anti-patrones</a></li>
+            <li><a href="#checklist" class="toc-link" data-es="10. Checklist de Tuning" data-en="10. Tuning Checklist">10. Checklist de Tuning</a></li>
+          </ul>
+        </aside>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>EDH // Edwin Hernández R. — Software Engineer & Enterprise Systems Architect</p>
+      <p style="margin-top:0.4rem; font-size:0.8rem; color:var(--text-muted);">
+        Copyright &copy; 2026. All rights reserved. Designed & Engineered for International Quality.
+      </p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
