@@ -23,21 +23,23 @@ const translations = {
     hero_status: "Disponible para Consultorías, Arquitectura Backend & Agentes IA",
     hero_title_prefix: "Hola, soy ",
     hero_title_name: "Edwin Hernández",
-    hero_subtitle: "Software Engineer | Software Architect | AI & Enterprise Systems",
-    hero_desc: "Especializado en el diseño de sistemas empresariales, Agentes de IA, chatbots integrados (WhatsApp / Telegram), transacciones bancarias ACH, APIs REST y bases de datos de alto rendimiento.",
+    hero_subtitle: "Software Engineer | Software Architect | Microservicios & Data Engineering",
+    hero_desc: "Especializado en arquitectura de Microservicios, Agentes de IA, transacciones bancarias ACH (FICOHSA), tuberías ETL automatizadas con SSIS, dashboards en Power BI (TIGO), APIs REST y optimización de bases de datos relacionales.",
     cta_view_work: "Ver mi trabajo",
     cta_download_cv: "Descargar CV",
     
     // Profile Widget Card
-    profile_role: "Software & AI Systems Architect",
+    profile_role: "Software & Enterprise Systems Architect",
     profile_location: "Disponible para Oportunidades Remotas Internacionales",
+    hero_highlight_1: "ETL & BI Monitoring (TIGO / SSIS)",
+    hero_highlight_2: "Microservicios & Core Financiero",
     
     // Companies Carousel
     comp_label: "Empresas & Plataformas Empresariales",
     
     // Bento Dashboard
     bento_title_1: "Sistemas Empresariales",
-    bento_desc_1: "Plataformas ERP, CRM y transacciones financieras ACH.",
+    bento_desc_1: "Plataformas ERP, CRM, Microservicios y ETLs automatizados.",
     bento_title_2: "Agentes IA & Chatbots",
     bento_desc_2: "Bots conversacionales en WhatsApp y Telegram con IA.",
     bento_title_3: "Motores de Base de Datos",
@@ -53,17 +55,17 @@ const translations = {
     cap_1_title: "Agentes de IA & Chatbots Conversacionales",
     cap_1_desc: "Arquitectura e integración de Agentes de IA y bots automatizados para WhatsApp y Telegram mediante webhooks, gestión de estados y conectores de IA.",
     
-    cap_2_title: "Sistemas Financieros & Transacciones ACH",
-    cap_2_desc: "Desarrollo de motores de transacciones financieras ACH, procesamiento de pagos interbancarios, conciliación y seguridad bancaria (FICOHSA).",
+    cap_2_title: "Microservicios & Backend Services",
+    cap_2_desc: "Construcción de servicios backend distribuidos, arquitectura de Microservicios, capas de negocio seguras y APIs REST de alto rendimiento.",
     
-    cap_3_title: "Backend Services & REST APIs",
-    cap_3_desc: "Construcción de servicios backend escalables, conectores de integración, capas de negocio seguras y APIs de alto rendimiento.",
+    cap_3_title: "Sistemas Financieros & Transacciones ACH",
+    cap_3_desc: "Desarrollo de motores de transacciones financieras ACH, procesamiento de pagos interbancarios, conciliación y seguridad bancaria (FICOHSA).",
     
-    cap_4_title: "Software & Solutions Architecture",
-    cap_4_desc: "Definición de patrones de diseño, separación de responsabilidades, modularidad, reducción de deuda técnica y evolución de sistemas.",
+    cap_4_title: "Arquitectura de Datos & Tuberías ETL (SSIS)",
+    cap_4_desc: "Diseño e implementación de procesos ETL automatizados con SQL Server Integration Services (SSIS), seguimiento de flujo de datos, modelado relacional y tuning de consultas en SQL Server & Oracle.",
     
-    cap_5_title: "Data Architecture & Databases",
-    cap_5_desc: "Modelado relacional de datos, optimización de consultas complejas, procedimientos almacenados, tuning de índices e integridad de datos.",
+    cap_5_title: "Business Intelligence & Power BI (TIGO)",
+    cap_5_desc: "Desarrollo de dashboards ejecutivos e indicadores clave de rendimiento (KPIs) en Power BI para operaciones de telecomunicaciones (TIGO) y toma de decisiones estratégica.",
     
     cap_6_title: "DevOps, Containers & Deployment",
     cap_6_desc: "Contenerización con Docker, orquestación, CI/CD, configuración de servidores de aplicaciones y entornos de despliegue confiables.",
@@ -187,21 +189,23 @@ const translations = {
     hero_status: "Open for Architecture, Backend & AI Agent Consulting",
     hero_title_prefix: "Hi, I'm ",
     hero_title_name: "Edwin Hernández",
-    hero_subtitle: "Software Engineer | Software Architect | AI & Enterprise Systems",
-    hero_desc: "Specialized in enterprise software architecture, AI Agents, multi-channel chatbots (WhatsApp & Telegram), ACH financial transactions, REST APIs, and database engineering.",
+    hero_subtitle: "Software Engineer | Software Architect | Microservices & Data Engineering",
+    hero_desc: "Specialized in Microservices architecture, AI Agents, ACH financial transactions (FICOHSA), automated ETL data pipelines with SSIS, Power BI analytics (TIGO), REST APIs, and database performance tuning.",
     cta_view_work: "View My Work",
     cta_download_cv: "Download Resume",
     
     // Profile Widget Card
-    profile_role: "Software & AI Systems Architect",
+    profile_role: "Software & Enterprise Systems Architect",
     profile_location: "Available for Global Remote Opportunities",
+    hero_highlight_1: "ETL & BI Monitoring (TIGO / SSIS)",
+    hero_highlight_2: "Microservices & Core Banking",
     
     // Companies Carousel
     comp_label: "Enterprise Companies & Clients",
     
     // Bento Dashboard
     bento_title_1: "Enterprise Systems",
-    bento_desc_1: "ERP, CRM, and ACH financial transaction engines.",
+    bento_desc_1: "ERP, CRM, Microservices, and automated ETL pipelines.",
     bento_title_2: "AI Agents & Chatbots",
     bento_desc_2: "Conversational AI bots on WhatsApp & Telegram.",
     bento_title_3: "Database Engines",
@@ -217,17 +221,17 @@ const translations = {
     cap_1_title: "AI Agents & Conversational Bots",
     cap_1_desc: "Architecture and integration of AI Agents and automated bots for WhatsApp and Telegram via webhooks, state management, and AI connectors.",
     
-    cap_2_title: "Financial Systems & ACH Transactions",
-    cap_2_desc: "Development of ACH financial transaction engines, interbank payment processing, settlement reconciliation, and banking security (FICOHSA).",
+    cap_2_title: "Microservices & Backend Services",
+    cap_2_desc: "Building distributed backend services, Microservices architecture, secure business logic layers, and high-throughput REST APIs.",
     
-    cap_3_title: "Backend Services & REST APIs",
-    cap_3_desc: "Building scalable backend services, integration connectors, secure business layers, and high-throughput REST APIs.",
+    cap_3_title: "Financial Systems & ACH Transactions",
+    cap_3_desc: "Development of ACH financial transaction engines, interbank payment processing, settlement reconciliation, and banking security (FICOHSA).",
     
-    cap_4_title: "Software & Solutions Architecture",
-    cap_4_desc: "Defining design patterns, separation of concerns, modularity, technical debt reduction, and system evolution.",
+    cap_4_title: "Data Architecture & SSIS ETL Pipelines",
+    cap_4_desc: "Designing and implementing automated ETL data pipelines using SQL Server Integration Services (SSIS), batch tracking & monitoring, relational modeling, and SQL query tuning.",
     
-    cap_5_title: "Data Architecture & Databases",
-    cap_5_desc: "Relational data modeling, complex query tuning, stored procedures, indexing strategies, and data integrity.",
+    cap_5_title: "Business Intelligence & Power BI (TIGO)",
+    cap_5_desc: "Developing executive dashboards and key performance indicators (KPIs) in Power BI for telecom operations (TIGO) and strategic decision making.",
     
     cap_6_title: "DevOps, Containers & Deployment",
     cap_6_desc: "Containerization with Docker, orchestration, CI/CD, application server setup, and dependable deployment environments.",
